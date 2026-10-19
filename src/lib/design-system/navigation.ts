@@ -1,7 +1,11 @@
 import {
+  AlignLeft,
+  ChevronsUpDown,
+  CircleDot,
   CircleUserRound,
   Columns3,
   CreditCard,
+  FormInput,
   Frame,
   Inbox,
   ListTree,
@@ -9,10 +13,14 @@ import {
   MessageCircleQuestion,
   MousePointerClick,
   Palette,
+  Power,
   Rows3,
   SeparatorHorizontal,
+  SlidersHorizontal,
+  SquareCheck,
   SquareMousePointer,
   Tag,
+  TextCursorInput,
   ToggleLeft,
   ToggleRight,
   type LucideIcon,
@@ -60,6 +68,19 @@ export const DS_NAV: NavCategory[] = [
       { label: "Dropdown Menu", href: "/design-system/actions/dropdown-menu", icon: ListTree },
     ],
   },
+  {
+    title: "Forms",
+    items: [
+      { label: "Form Field", href: "/design-system/forms/form-field", icon: FormInput },
+      { label: "Input", href: "/design-system/forms/input", icon: TextCursorInput },
+      { label: "Textarea", href: "/design-system/forms/textarea", icon: AlignLeft },
+      { label: "Select", href: "/design-system/forms/select", icon: ChevronsUpDown },
+      { label: "Checkbox", href: "/design-system/forms/checkbox", icon: SquareCheck },
+      { label: "Radio Group", href: "/design-system/forms/radio-group", icon: CircleDot },
+      { label: "Switch", href: "/design-system/forms/switch", icon: Power },
+      { label: "Slider", href: "/design-system/forms/slider", icon: SlidersHorizontal },
+    ],
+  },
 ];
 
 /**
@@ -68,7 +89,7 @@ export const DS_NAV: NavCategory[] = [
  * with links that go nowhere.
  */
 export const DS_ROADMAP: Array<{ category: string; items: string[] }> = [
-  { category: "Forms", items: ["Input", "Textarea", "Select", "Combobox", "Checkbox", "Radio Group", "Switch", "Slider", "Form Field"] },
+  { category: "Forms", items: ["Combobox"] },
   { category: "Data Display", items: ["Table", "Data Table", "Pagination", "Tabs", "Accordion", "Progress", "Meter"] },
   { category: "Feedback", items: ["Alert", "Inline Message", "Toast", "Loading State", "Error State", "Success State"] },
   { category: "Overlays", items: ["Dialog", "Alert Dialog", "Drawer", "Popover"] },
