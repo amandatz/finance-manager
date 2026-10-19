@@ -1,14 +1,20 @@
 import {
   CircleUserRound,
+  Columns3,
   CreditCard,
   Frame,
   Inbox,
+  ListTree,
   LoaderCircle,
   MessageCircleQuestion,
+  MousePointerClick,
   Palette,
   Rows3,
   SeparatorHorizontal,
+  SquareMousePointer,
   Tag,
+  ToggleLeft,
+  ToggleRight,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,6 +49,17 @@ export const DS_NAV: NavCategory[] = [
       { label: "Empty State", href: "/design-system/foundations/empty-state", icon: Inbox },
     ],
   },
+  {
+    title: "Actions",
+    items: [
+      { label: "Button", href: "/design-system/actions/button", icon: MousePointerClick },
+      { label: "Icon Button", href: "/design-system/actions/icon-button", icon: SquareMousePointer },
+      { label: "Button Group", href: "/design-system/actions/button-group", icon: Columns3 },
+      { label: "Toggle", href: "/design-system/actions/toggle", icon: ToggleLeft },
+      { label: "Toggle Group", href: "/design-system/actions/toggle-group", icon: ToggleRight },
+      { label: "Dropdown Menu", href: "/design-system/actions/dropdown-menu", icon: ListTree },
+    ],
+  },
 ];
 
 /**
@@ -51,7 +68,6 @@ export const DS_NAV: NavCategory[] = [
  * with links that go nowhere.
  */
 export const DS_ROADMAP: Array<{ category: string; items: string[] }> = [
-  { category: "Actions", items: ["Button", "Icon Button", "Button Group", "Toggle", "Toggle Group", "Dropdown Menu"] },
   { category: "Forms", items: ["Input", "Textarea", "Select", "Combobox", "Checkbox", "Radio Group", "Switch", "Slider", "Form Field"] },
   { category: "Data Display", items: ["Table", "Data Table", "Pagination", "Tabs", "Accordion", "Progress", "Meter"] },
   { category: "Feedback", items: ["Alert", "Inline Message", "Toast", "Loading State", "Error State", "Success State"] },

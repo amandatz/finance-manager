@@ -3,8 +3,6 @@ import { ArrowRight } from "lucide-react";
 import { DS_NAV, DS_ROADMAP } from "@/lib/design-system/navigation";
 
 export default function DesignSystemOverviewPage() {
-  const foundations = DS_NAV[0];
-
   return (
     <div className="flex flex-col gap-12">
       <div className="flex flex-col gap-4">
@@ -19,24 +17,26 @@ export default function DesignSystemOverviewPage() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <h2 className="text-lg font-semibold">{foundations.title}</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {foundations.items.map(({ label, href, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-surface px-4 py-3 transition-colors duration-base hover:border-primary/40"
-            >
-              <span className="flex items-center gap-2.5 text-sm font-medium">
-                <Icon className="h-4 w-4 text-muted-foreground" />
-                {label}
-              </span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform duration-base group-hover:translate-x-0.5" />
-            </Link>
-          ))}
+      {DS_NAV.map((category) => (
+        <div key={category.title} className="flex flex-col gap-4">
+          <h2 className="text-lg font-semibold">{category.title}</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {category.items.map(({ label, href, icon: Icon }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-surface px-4 py-3 transition-colors duration-base hover:border-primary/40"
+              >
+                <span className="flex items-center gap-2.5 text-sm font-medium">
+                  <Icon className="h-4 w-4 text-muted-foreground" />
+                  {label}
+                </span>
+                <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform duration-base group-hover:translate-x-0.5" />
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      ))}
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
