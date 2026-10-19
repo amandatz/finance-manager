@@ -1,4 +1,16 @@
-import { Palette, type LucideIcon } from "lucide-react";
+import {
+  CircleUserRound,
+  CreditCard,
+  Frame,
+  Inbox,
+  LoaderCircle,
+  MessageCircleQuestion,
+  Palette,
+  Rows3,
+  SeparatorHorizontal,
+  Tag,
+  type LucideIcon,
+} from "lucide-react";
 
 export interface NavItem {
   label: string;
@@ -18,8 +30,33 @@ export interface NavCategory {
 export const DS_NAV: NavCategory[] = [
   {
     title: "Foundations",
-    items: [{ label: "Colors", href: "/design-system/foundations/colors", icon: Palette }],
+    items: [
+      { label: "Colors", href: "/design-system/foundations/colors", icon: Palette },
+      { label: "Container", href: "/design-system/foundations/container", icon: Frame },
+      { label: "Stack", href: "/design-system/foundations/stack", icon: Rows3 },
+      { label: "Separator", href: "/design-system/foundations/separator", icon: SeparatorHorizontal },
+      { label: "Surface & Card", href: "/design-system/foundations/surface-and-card", icon: CreditCard },
+      { label: "Badge", href: "/design-system/foundations/badge", icon: Tag },
+      { label: "Avatar", href: "/design-system/foundations/avatar", icon: CircleUserRound },
+      { label: "Tooltip", href: "/design-system/foundations/tooltip", icon: MessageCircleQuestion },
+      { label: "Skeleton", href: "/design-system/foundations/skeleton", icon: LoaderCircle },
+      { label: "Empty State", href: "/design-system/foundations/empty-state", icon: Inbox },
+    ],
   },
+];
+
+/**
+ * What's planned but not built yet, grouped by category — shown on the
+ * overview page so the roadmap is visible without cluttering the sidebar
+ * with links that go nowhere.
+ */
+export const DS_ROADMAP: Array<{ category: string; items: string[] }> = [
+  { category: "Actions", items: ["Button", "Icon Button", "Button Group", "Toggle", "Toggle Group", "Dropdown Menu"] },
+  { category: "Forms", items: ["Input", "Textarea", "Select", "Combobox", "Checkbox", "Radio Group", "Switch", "Slider", "Form Field"] },
+  { category: "Data Display", items: ["Table", "Data Table", "Pagination", "Tabs", "Accordion", "Progress", "Meter"] },
+  { category: "Feedback", items: ["Alert", "Inline Message", "Toast", "Loading State", "Error State", "Success State"] },
+  { category: "Overlays", items: ["Dialog", "Alert Dialog", "Drawer", "Popover"] },
+  { category: "Navigation", items: ["Breadcrumb", "Navigation Menu"] },
 ];
 
 export function findActiveNavItem(pathname: string): NavItem | undefined {
