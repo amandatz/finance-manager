@@ -4,7 +4,13 @@
  * raw primitives in primitives.css directly.
  */
 
-:root {
+/*
+ * `.light` mirrors `:root` so a subtree can force light mode even when an
+ * ancestor has `.dark` — used by the playground's side-by-side theme
+ * preview, which must never touch the real (next-themes) preference.
+ */
+:root,
+.light {
   --background: var(--ink-50);
   --foreground: var(--ink-950);
 
