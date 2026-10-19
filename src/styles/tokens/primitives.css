@@ -53,12 +53,15 @@
   --shadow-prim-lg: 0 16px 40px hsl(var(--shadow-color) / 0.34);
   --shadow-prim-xl: 0 24px 64px hsl(var(--shadow-color) / 0.4);
 
-  /* ---- motion ---- */
-  --duration-fast: 120ms;
-  --duration-base: 200ms;
-  --duration-slow: 320ms;
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  /*
+   * Motion primitives — also `-prim-` infixed; registered as real
+   * `duration-*`/`ease-*` utilities in globals.css.
+   */
+  --duration-prim-fast: 120ms;
+  --duration-prim-base: 200ms;
+  --duration-prim-slow: 320ms;
+  --ease-prim-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-prim-emphasized: cubic-bezier(0.2, 0, 0, 1);
 
   /* ---- elevation layers (z-index) ---- */
   --z-dropdown: 1000;

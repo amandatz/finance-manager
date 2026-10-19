@@ -67,6 +67,13 @@
   --shadow-md: var(--shadow-prim-md);
   --shadow-lg: var(--shadow-prim-lg);
   --shadow-xl: var(--shadow-prim-xl);
+
+  --duration-fast: var(--duration-prim-fast);
+  --duration-base: var(--duration-prim-base);
+  --duration-slow: var(--duration-prim-slow);
+
+  --ease-standard: var(--ease-prim-standard);
+  --ease-emphasized: var(--ease-prim-emphasized);
 }
 
 @layer base {
