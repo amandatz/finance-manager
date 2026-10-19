@@ -1,0 +1,93 @@
+/*
+ * Semantic tokens — express intent ("surface", "destructive", "ring"),
+ * resolved per theme. Components must only ever consume these, never the
+ * raw primitives in primitives.css directly.
+ */
+
+:root {
+  --background: var(--ink-50);
+  --foreground: var(--ink-950);
+
+  --surface: #ffffff;
+  --surface-foreground: var(--ink-950);
+  --surface-elevated: #ffffff;
+  --surface-elevated-foreground: var(--ink-950);
+
+  --primary: var(--lavender-600);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--ink-100);
+  --secondary-foreground: var(--ink-900);
+
+  --muted: var(--ink-100);
+  --muted-foreground: var(--ink-600);
+
+  --accent: var(--lavender-100);
+  --accent-foreground: var(--lavender-900);
+
+  --border: var(--ink-200);
+  --input: var(--ink-300);
+  --ring: var(--lavender-500);
+
+  --success: var(--color-emerald-600);
+  --success-foreground: #ffffff;
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-amber-950);
+  --destructive: var(--color-rose-600);
+  --destructive-foreground: #ffffff;
+  --info: var(--color-sky-600);
+  --info-foreground: #ffffff;
+
+  --overlay: hsl(260 35% 6% / 0.45);
+
+  --chart-1: var(--lavender-500);
+  --chart-2: var(--color-sky-500);
+  --chart-3: var(--color-amber-500);
+  --chart-4: var(--color-emerald-500);
+  --chart-5: var(--color-rose-500);
+  --chart-6: var(--ink-400);
+}
+
+.dark {
+  --background: var(--ink-950);
+  --foreground: var(--ink-50);
+
+  --surface: var(--ink-900);
+  --surface-foreground: var(--ink-50);
+  --surface-elevated: var(--ink-800);
+  --surface-elevated-foreground: var(--ink-50);
+
+  --primary: var(--lavender-400);
+  --primary-foreground: var(--ink-950);
+
+  --secondary: var(--ink-800);
+  --secondary-foreground: var(--ink-50);
+
+  --muted: var(--ink-800);
+  --muted-foreground: var(--ink-400);
+
+  --accent: var(--lavender-950);
+  --accent-foreground: var(--lavender-200);
+
+  --border: var(--ink-800);
+  --input: var(--ink-700);
+  --ring: var(--lavender-400);
+
+  --success: var(--color-emerald-400);
+  --success-foreground: var(--color-emerald-950);
+  --warning: var(--color-amber-400);
+  --warning-foreground: var(--color-amber-950);
+  --destructive: var(--color-rose-400);
+  --destructive-foreground: var(--color-rose-950);
+  --info: var(--color-sky-400);
+  --info-foreground: var(--color-sky-950);
+
+  --overlay: hsl(260 35% 2% / 0.6);
+
+  --chart-1: var(--lavender-400);
+  --chart-2: var(--color-sky-400);
+  --chart-3: var(--color-amber-400);
+  --chart-4: var(--color-emerald-400);
+  --chart-5: var(--color-rose-400);
+  --chart-6: var(--ink-400);
+}

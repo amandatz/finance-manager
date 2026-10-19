@@ -1,27 +1,104 @@
 @import "tailwindcss";
+@import "../styles/tokens/primitives.css";
+@import "../styles/tokens/semantic.css";
+@import "../styles/tokens/components.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
-
-:root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-}
-
-.dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-}
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-elevated-foreground: var(--surface-elevated-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-overlay: var(--overlay);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/*
+ * Radius/shadow don't vary by theme, so they're registered with a plain
+ * (non-inline) @theme block directly from the primitives.
+ */
+@theme {
+  --radius-xs: var(--radius-prim-xs);
+  --radius-sm: var(--radius-prim-sm);
+  --radius-md: var(--radius-prim-md);
+  --radius-lg: var(--radius-prim-lg);
+  --radius-xl: var(--radius-prim-xl);
+  --radius-2xl: var(--radius-prim-2xl);
+  --radius-pill: var(--radius-prim-pill);
+
+  --shadow-xs: var(--shadow-prim-xs);
+  --shadow-sm: var(--shadow-prim-sm);
+  --shadow-md: var(--shadow-prim-md);
+  --shadow-lg: var(--shadow-prim-lg);
+  --shadow-xl: var(--shadow-prim-xl);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+    transition: background-color var(--duration-slow) var(--ease-standard), color var(--duration-slow) var(--ease-standard);
+  }
+
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  ::selection {
+    background: var(--lavender-300);
+    color: var(--ink-950);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,0 +1,71 @@
+/*
+ * Primitives — context-free raw values. Nothing here knows about "light"
+ * or "dark", or what a button or a card is. Semantic tokens (semantic.css)
+ * are the only thing allowed to reference these directly.
+ */
+
+:root {
+  /* ---- ink: the neutral scale (charcoal, not black, slight violet undertone) ---- */
+  --ink-50: #f7f6f9;
+  --ink-100: #eeecf2;
+  --ink-200: #dad6e3;
+  --ink-300: #bcb5cc;
+  --ink-400: #9891ac;
+  --ink-500: #7a7291;
+  --ink-600: #5f5775;
+  --ink-700: #4a4360;
+  --ink-800: #332e45;
+  --ink-900: #211d30;
+  --ink-950: #17151c;
+
+  /* ---- lavender: primary accent scale ---- */
+  --lavender-50: #f6f3ff;
+  --lavender-100: #ece5ff;
+  --lavender-200: #dbceff;
+  --lavender-300: #c2acff;
+  --lavender-400: #a98cff;
+  --lavender-500: #9368f7;
+  --lavender-600: #7c4fe0;
+  --lavender-700: #633bc2;
+  --lavender-800: #4f30a0;
+  --lavender-900: #402980;
+  --lavender-950: #281a54;
+
+  /*
+   * Radius/shadow primitives are named with a `-prim-` infix so they never
+   * collide with the Tailwind theme keys (--radius-xs, --shadow-xs, ...)
+   * that alias them in globals.css — aliasing a variable to itself would
+   * silently resolve to nothing.
+   */
+  --radius-prim-xs: 0.375rem;
+  --radius-prim-sm: 0.5rem;
+  --radius-prim-md: 0.75rem;
+  --radius-prim-lg: 1rem;
+  --radius-prim-xl: 1.5rem;
+  --radius-prim-2xl: 2rem;
+  --radius-prim-pill: 999px;
+
+  /* ---- elevation (shadows) — tuned for a dark-first, lavender-tinted UI ---- */
+  --shadow-color: 260 35% 6%;
+  --shadow-prim-xs: 0 1px 2px hsl(var(--shadow-color) / 0.3);
+  --shadow-prim-sm: 0 2px 8px hsl(var(--shadow-color) / 0.28);
+  --shadow-prim-md: 0 8px 24px hsl(var(--shadow-color) / 0.3);
+  --shadow-prim-lg: 0 16px 40px hsl(var(--shadow-color) / 0.34);
+  --shadow-prim-xl: 0 24px 64px hsl(var(--shadow-color) / 0.4);
+
+  /* ---- motion ---- */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- elevation layers (z-index) ---- */
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-overlay: 1200;
+  --z-modal: 1300;
+  --z-popover: 1400;
+  --z-tooltip: 1500;
+  --z-toast: 1600;
+}
