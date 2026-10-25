@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finance Manager — Frontend
 
-## Getting Started
+Interface do Finance Manager: login/cadastro, dashboard de finanças do household
+(contas, cartões, gastos) e um design system próprio em `/design-system`.
 
-First, run the development server:
+## Stack
+
+- Next.js (App Router) + React, Turbopack
+- Vitest + Testing Library para testes de componente
+- Tokens de design em camadas (`src/styles/tokens`) — primitivos → semânticos
+
+## Rodando localmente
+
+Pré-requisitos: Node 20+, backend rodando em `http://localhost:5228` (ver `../back`).
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre em `http://localhost:3000`. Para apontar para outra API, defina
+`NEXT_PUBLIC_API_BASE_URL` (ex.: `.env.local`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Testes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test          # roda uma vez
+npm run test:watch
+```
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/` — rotas (`login`, `register`, `dashboard/*`, `design-system/*`)
+- `src/components/ui/` — componentes de design system (Button, Input, DropdownMenu, etc.)
+- `src/lib/auth/` — cliente de API de autenticação, armazenamento de tokens, sessão
+- `src/styles/tokens/` — variáveis CSS de tema (claro/escuro)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentação
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Specs e contrato de API ficam em `../docs/` (specs) e `../back/docs/frontend-auth-spec.md`
+(endpoints de autenticação consumidos aqui).
