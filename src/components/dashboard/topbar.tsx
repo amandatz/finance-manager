@@ -21,10 +21,9 @@ export function Topbar() {
   const { title, subtitle } = PAGE_COPY[pathname] ?? { title: "Dashboard", subtitle: "" };
 
   async function handleLogout() {
-    // Logout is a local action: tokens are cleared and the user is
-    // redirected to /login regardless of whether the backend call
-    // succeeds, fails over the network, or errors server-side (per
-    // docs/specs/004-logout-cadastro.md, section 2).
+    // Logout is a local action: tokens are cleared and the user is redirected
+    // to /login regardless of whether the backend call succeeds, fails over
+    // the network, or errors server-side.
     const refreshToken = getRefreshToken();
     try {
       if (refreshToken) {
