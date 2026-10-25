@@ -34,8 +34,3 @@ npm run test:watch
 - `src/components/ui/` — componentes de design system (Button, Input, DropdownMenu, etc.)
 - `src/lib/auth/` — cliente de API de autenticação, armazenamento de tokens, sessão
 - `src/styles/tokens/` — variáveis CSS de tema (claro/escuro)
-
-## Documentação
-
-Specs e contrato de API ficam em `../docs/` (specs) e `../back/docs/frontend-auth-spec.md`
-(endpoints de autenticação consumidos aqui).
