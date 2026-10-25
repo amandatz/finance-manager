@@ -1,16 +1,30 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, type ReactNode } from "react";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
+import { hasValidSession } from "@/lib/auth/session";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!hasValidSession()) {
+      router.replace("/login");
+    }
+  }, [router]);
+
+  if (!hasValidSession()) {
+    return null;
+  }
+
   return (
-    <div className="flex h-full min-h-screen">
+    <div className="flex min-h-screen gap-4 bg-background p-4">
       <Sidebar />
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col gap-4">
         <Topbar />
-        <main className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-slate-950 dark:to-slate-900">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
       </div>
     </div>
   );

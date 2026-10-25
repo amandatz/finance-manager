@@ -1,31 +1,75 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { User } from "lucide-react";
-import { ThemeToggle } from "@/components/dashboard/theme-toggle";
+import { usePathname, useRouter } from "next/navigation";
+import { Bell, LogOut, Search } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { IconButton } from "@/components/ui/icon-button";
+import { ThemeModeToggle } from "@/components/ui/theme-mode-toggle";
+import { logout as logoutRequest } from "@/lib/auth/auth-client";
+import { clearTokens, getRefreshToken } from "@/lib/auth/token-storage";
 
-const PAGE_TITLES: Record<string, string> = {
-  "/dashboard": "Overview",
-  "/dashboard/accounts": "Accounts",
-  "/dashboard/budgets": "Budgets",
-  "/dashboard/settings": "Settings",
+const PAGE_COPY: Record<string, { title: string; subtitle: string }> = {
+  "/dashboard": { title: "Overview", subtitle: "Detailed information about your household finances" },
+  "/dashboard/accounts": { title: "Accounts", subtitle: "Every account, balance and connection in one place" },
+  "/dashboard/budgets": { title: "Budgets", subtitle: "Track spending against your monthly targets" },
+  "/dashboard/settings": { title: "Settings", subtitle: "Manage your profile and preferences" },
 };
 
 export function Topbar() {
   const pathname = usePathname();
-  const title = PAGE_TITLES[pathname] ?? "Dashboard";
+  const router = useRouter();
+  const { title, subtitle } = PAGE_COPY[pathname] ?? { title: "Dashboard", subtitle: "" };
+
+  async function handleLogout() {
+    // Logout is a local action: tokens are cleared and the user is
+    // redirected to /login regardless of whether the backend call
+    // succeeds, fails over the network, or errors server-side (per
+    // docs/specs/004-logout-cadastro.md, section 2).
+    const refreshToken = getRefreshToken();
+    try {
+      if (refreshToken) {
+        await logoutRequest(refreshToken);
+      }
+    } catch {
+      // ignored — logging out locally still proceeds below.
+    } finally {
+      clearTokens();
+      router.push("/login");
+    }
+  }
 
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-slate-200/70 bg-white/70 px-6 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/50">
-      <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
-      <div className="flex items-center gap-3">
-        <ThemeToggle />
-        <div className="flex items-center gap-2 rounded-full border border-slate-200/70 bg-white py-1.5 pl-1.5 pr-3 text-sm transition-colors dark:border-slate-800/70 dark:bg-slate-900">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500 text-white">
-            <User className="h-3.5 w-3.5" />
+    <header className="flex items-start justify-between">
+      <div>
+        <h1 className="text-title font-bold tracking-tight">{title}</h1>
+        <p className="mt-1 text-subtitle font-medium text-muted-foreground">{subtitle}</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <IconButton variant="surface" className="rounded-pill" aria-label="Search">
+          <Search className="h-4 w-4" />
+        </IconButton>
+        <IconButton variant="surface" className="relative rounded-pill" aria-label="Notifications, 2 unread">
+          <Bell className="h-4 w-4" />
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-pill bg-muted text-[10px] font-medium text-status-success">
+            2
           </span>
-          <span className="font-medium text-slate-700 dark:text-slate-300">Household Owner</span>
-        </div>
+        </IconButton>
+        <ThemeModeToggle />
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <button
+              type="button"
+              aria-label="Menu da conta, Household Owner"
+              className="h-10 w-10 rounded-pill bg-[image:var(--gradient-kpi-accent)]"
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem destructive onSelect={handleLogout}>
+              <LogOut className="h-4 w-4" aria-hidden="true" />
+              Sair
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
