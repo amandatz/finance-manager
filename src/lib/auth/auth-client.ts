@@ -4,7 +4,7 @@ import type { AuthTokens, LoginRequest, RegisterRequest } from "@/types/auth";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5228/api/v1";
 
 /**
- * POST /api/v1/auth/login — back/docs/frontend-auth-spec.md.
+ * POST /api/v1/auth/login — docs/api/frontend-auth-spec.md.
  * Throws ApiError (via toApiError) on any non-2xx response, including
  * network/server failures surfaced as a generic 0-status-like ApiError.
  */
@@ -31,7 +31,7 @@ export async function login(credentials: LoginRequest): Promise<AuthTokens> {
 }
 
 /**
- * POST /api/v1/auth/register — back/docs/frontend-auth-spec.md.
+ * POST /api/v1/auth/register — docs/api/frontend-auth-spec.md.
  * Success (201) already includes the access/refresh token pair — the caller
  * is logged in immediately, no separate login call needed. Throws ApiError
  * (via toApiError) on any non-2xx response, including network/server
@@ -57,7 +57,7 @@ export async function register(data: RegisterRequest): Promise<AuthTokens> {
 }
 
 /**
- * POST /api/v1/auth/logout — back/docs/frontend-auth-spec.md. Idempotent on
+ * POST /api/v1/auth/logout — docs/api/frontend-auth-spec.md. Idempotent on
  * the backend (always 204, even with an already-invalid token), and logout
  * is treated as a local action: callers should clear stored tokens and
  * redirect regardless of whether this call succeeds or fails. We still throw

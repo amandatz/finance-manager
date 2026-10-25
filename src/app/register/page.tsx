@@ -26,7 +26,7 @@ const HOUSEHOLD_XOR_MESSAGE = "Preencha o nome do household ou um código de con
 const GENERIC_SERVER_ERROR = "Não foi possível criar sua conta. Tente novamente.";
 
 // Validation Problem Details field keys are PascalCase per
-// back/docs/frontend-auth-spec.md ("Validation error shape").
+// docs/api/frontend-auth-spec.md ("Validation error shape").
 const VALIDATION_FIELD_MAP: Record<string, keyof FieldErrors> = {
   Name: "name",
   Email: "email",

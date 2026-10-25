@@ -4,7 +4,7 @@ import { getStoredTokens } from "@/lib/auth/token-storage";
  * Cheap, local check for "is there a session worth trying" — used to decide
  * between /dashboard and /login on the root route.
  *
- * The refresh token is opaque (per back/docs/frontend-auth-spec.md it's a
+ * The refresh token is opaque (per docs/api/frontend-auth-spec.md it's a
  * random string, not a JWT), so there's no local `exp` claim to inspect for
  * it. Presence of both stored tokens is therefore the best local signal
  * available; it does not guarantee the backend still accepts them (they

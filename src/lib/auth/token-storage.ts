@@ -3,7 +3,7 @@ import type { AuthTokens } from "@/types/auth";
 /**
  * Token persistence for the current session.
  *
- * Per the backend's token strategy (back/docs/frontend-auth-spec.md — "Token
+ * Per the backend's token strategy (docs/api/frontend-auth-spec.md — "Token
  * storage & refresh"): store both access and refresh tokens, always
  * overwriting both together, and never keep an old refresh token "just in
  * case". We use localStorage so the session survives page reloads; there is

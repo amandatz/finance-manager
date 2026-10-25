@@ -2,7 +2,7 @@ import type { ProblemDetails, ValidationProblemDetails } from "@/types/auth";
 
 /**
  * Normalized error thrown by the auth API client. Wraps both Problem Details
- * shapes described in back/docs/frontend-auth-spec.md ("Error shape"):
+ * shapes described in docs/api/frontend-auth-spec.md ("Error shape"):
  *  - plain Problem Details (401/403/404/409/500/most 400s) — use `title`.
  *  - validation Problem Details (400 on malformed requests) — use `errors`.
  */
