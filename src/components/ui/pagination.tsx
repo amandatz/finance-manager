@@ -30,7 +30,7 @@ export function Pagination({ page, pageCount, onPageChange, className }: Paginat
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
         aria-label="Previous page"
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent/60 hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+        className="flex h-8 w-8 items-center justify-center rounded-pill text-muted-foreground hover:bg-accent/60 hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
       >
         <ChevronLeft className="h-4 w-4" />
       </button>
@@ -47,7 +47,7 @@ export function Pagination({ page, pageCount, onPageChange, className }: Paginat
             aria-current={p === page ? "page" : undefined}
             onClick={() => onPageChange(p)}
             className={cn(
-              "flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium",
+              "flex h-8 w-8 items-center justify-center rounded-pill text-sm font-medium",
               p === page ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
             )}
           >
@@ -61,7 +61,7 @@ export function Pagination({ page, pageCount, onPageChange, className }: Paginat
         onClick={() => onPageChange(page + 1)}
         disabled={page >= pageCount}
         aria-label="Next page"
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent/60 hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+        className="flex h-8 w-8 items-center justify-center rounded-pill text-muted-foreground hover:bg-accent/60 hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
       >
         <ChevronRight className="h-4 w-4" />
       </button>

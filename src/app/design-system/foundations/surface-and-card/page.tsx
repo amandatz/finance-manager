@@ -43,7 +43,7 @@ export default function SurfaceAndCardPage() {
               <CardDescription>Groceries category, updated daily.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-semibold">$420 / $600</p>
+              <p className="text-number-md font-semibold">$420 / $600</p>
             </CardContent>
             <CardFooter>
               <button type="button" className="text-sm font-medium text-primary">

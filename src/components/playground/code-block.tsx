@@ -18,7 +18,7 @@ export function CodeBlock({ code, className }: { code: string; className?: strin
   }
 
   return (
-    <div className={cn("group relative overflow-hidden rounded-xl border border-border bg-muted", className)}>
+    <div className={cn("group relative overflow-hidden rounded-card border border-border bg-muted", className)}>
       <pre className="overflow-x-auto p-4 text-sm leading-relaxed">
         <code className="font-mono text-foreground">{code}</code>
       </pre>
@@ -26,7 +26,7 @@ export function CodeBlock({ code, className }: { code: string; className?: strin
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Copied to clipboard" : "Copy code to clipboard"}
-        className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground opacity-0 transition-opacity duration-base group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100"
+        className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-pill border border-border bg-surface text-muted-foreground opacity-0 transition-opacity duration-base group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100"
       >
         {copied ? <Check className="h-4 w-4 text-success" /> : <Copy className="h-4 w-4" />}
       </button>

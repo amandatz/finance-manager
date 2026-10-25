@@ -1,5 +1,7 @@
 import {
   AlignLeft,
+  ChevronsDownUp,
+  ChevronsLeftRight,
   ChevronsUpDown,
   CircleDot,
   CircleUserRound,
@@ -7,18 +9,25 @@ import {
   CreditCard,
   FormInput,
   Frame,
+  Gauge,
   Inbox,
   ListTree,
   LoaderCircle,
   MessageCircleQuestion,
+  MoreHorizontal,
   MousePointerClick,
   Palette,
+  PanelLeft,
+  PanelTop,
   Power,
   Rows3,
   SeparatorHorizontal,
   SlidersHorizontal,
   SquareCheck,
   SquareMousePointer,
+  SquareStack,
+  Table as TableIcon,
+  TableProperties,
   Tag,
   TextCursorInput,
   ToggleLeft,
@@ -50,6 +59,7 @@ export const DS_NAV: NavCategory[] = [
       { label: "Stack", href: "/design-system/foundations/stack", icon: Rows3 },
       { label: "Separator", href: "/design-system/foundations/separator", icon: SeparatorHorizontal },
       { label: "Surface & Card", href: "/design-system/foundations/surface-and-card", icon: CreditCard },
+      { label: "Feature Card", href: "/design-system/foundations/feature-card", icon: SquareStack },
       { label: "Badge", href: "/design-system/foundations/badge", icon: Tag },
       { label: "Avatar", href: "/design-system/foundations/avatar", icon: CircleUserRound },
       { label: "Tooltip", href: "/design-system/foundations/tooltip", icon: MessageCircleQuestion },
@@ -81,6 +91,22 @@ export const DS_NAV: NavCategory[] = [
       { label: "Slider", href: "/design-system/forms/slider", icon: SlidersHorizontal },
     ],
   },
+  {
+    title: "Data Display",
+    items: [
+      { label: "Table", href: "/design-system/data-display/table", icon: TableIcon },
+      { label: "Data Table", href: "/design-system/data-display/data-table", icon: TableProperties },
+      { label: "Pagination", href: "/design-system/data-display/pagination", icon: MoreHorizontal },
+      { label: "Tabs", href: "/design-system/data-display/tabs", icon: PanelTop },
+      { label: "Accordion", href: "/design-system/data-display/accordion", icon: ChevronsDownUp },
+      { label: "Progress", href: "/design-system/data-display/progress", icon: ChevronsLeftRight },
+      { label: "Meter", href: "/design-system/data-display/meter", icon: Gauge },
+    ],
+  },
+  {
+    title: "Navigation",
+    items: [{ label: "Nav Rail", href: "/design-system/navigation/nav-rail", icon: PanelLeft }],
+  },
 ];
 
 /**
@@ -90,7 +116,6 @@ export const DS_NAV: NavCategory[] = [
  */
 export const DS_ROADMAP: Array<{ category: string; items: string[] }> = [
   { category: "Forms", items: ["Combobox"] },
-  { category: "Data Display", items: ["Table", "Data Table", "Pagination", "Tabs", "Accordion", "Progress", "Meter"] },
   { category: "Feedback", items: ["Alert", "Inline Message", "Toast", "Loading State", "Error State", "Success State"] },
   { category: "Overlays", items: ["Dialog", "Alert Dialog", "Drawer", "Popover"] },
   { category: "Navigation", items: ["Breadcrumb", "Navigation Menu"] },

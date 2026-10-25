@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useTheme } from "next-themes";
+import { motion } from "motion/react";
 import { Laptop, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/cn";
 
@@ -69,13 +70,18 @@ export function ThemeModeToggle({ className }: { className?: string }) {
             onClick={() => setTheme(value)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
-              "flex h-7 w-7 items-center justify-center rounded-pill transition-colors duration-base",
-              isActive
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground",
+              "relative flex h-7 w-7 items-center justify-center rounded-pill transition-colors duration-base",
+              isActive ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
             )}
           >
-            <Icon className="h-3.5 w-3.5" />
+            {isActive && (
+              <motion.span
+                layoutId="theme-mode-toggle-active-pill"
+                className="absolute inset-0 rounded-pill bg-primary"
+                transition={{ type: "spring", stiffness: 500, damping: 35 }}
+              />
+            )}
+            <Icon className="relative z-10 h-3.5 w-3.5" />
           </button>
         );
       })}

@@ -5,31 +5,47 @@
  */
 
 :root {
-  /* ---- ink: the neutral scale (charcoal, not black, slight violet undertone) ---- */
-  --ink-50: #f7f6f9;
-  --ink-100: #eeecf2;
-  --ink-200: #dad6e3;
-  --ink-300: #bcb5cc;
-  --ink-400: #9891ac;
-  --ink-500: #7a7291;
-  --ink-600: #5f5775;
-  --ink-700: #4a4360;
-  --ink-800: #332e45;
-  --ink-900: #211d30;
-  --ink-950: #17151c;
+  /* ---- neutral: the neutral scale (true gray, no undertone) ---- */
+  --neutral-0: #ffffff;
+  --neutral-50: #f7f7f8;
+  --neutral-100: #f0f0f2;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4d8;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #3f3f46;
+  --neutral-800: #27272a;
+  --neutral-900: #18181b;
+  --neutral-950: #09090b;
 
-  /* ---- lavender: primary accent scale ---- */
-  --lavender-50: #f6f3ff;
-  --lavender-100: #ece5ff;
-  --lavender-200: #dbceff;
-  --lavender-300: #c2acff;
-  --lavender-400: #a98cff;
-  --lavender-500: #9368f7;
-  --lavender-600: #7c4fe0;
-  --lavender-700: #633bc2;
-  --lavender-800: #4f30a0;
-  --lavender-900: #402980;
-  --lavender-950: #281a54;
+  /* ---- lilac: chart-only accent scale (never buttons/badges/borders/card fills) ---- */
+  --lilac-300: #c9b8f5;
+  --lilac-400: #ab8df0;
+  --lilac-500: #8f6aea;
+  /*
+   * --lilac-600/700 are a deliberate, documented exception (design-system.md
+   * §1.2): used ONLY by --gradient-kpi-secondary ("Income this month" card
+   * background), never by --chart-*. Do not reuse in charts.
+   */
+  --lilac-600: #6d46d6;
+  --lilac-700: #4c2a9e;
+
+  /*
+   * ---- clay: single-purpose accent scale, introduced 2026-10-23 (design-
+   * system.md §1.2b) solely for --gradient-kpi-tertiary ("Expenses this
+   * month" card background). Not a chart color, not a status color — don't
+   * expand its usage without a new explicit decision.
+   */
+  --clay-300: #e8cdbd;
+  --clay-500: #c08064;
+  --clay-700: #8a543c;
+
+  /* ---- status: text-only (never backgrounds) ---- */
+  --status-success-text: #15803d;
+  --status-danger-text: #b91c1c;
+  --status-success-text-dark: #4ade80;
+  --status-danger-text-dark: #f87171;
 
   /*
    * Radius/shadow primitives are named with a `-prim-` infix so they never
@@ -44,21 +60,27 @@
   --radius-prim-xl: 1.5rem;
   --radius-prim-2xl: 2rem;
   --radius-prim-pill: 999px;
+  --radius-prim-card: 1.125rem; /* 18px */
+  --radius-prim-field: 0.75rem; /* 12px */
 
-  /* ---- elevation (shadows) — tuned for a dark-first, lavender-tinted UI ---- */
-  --shadow-color: 260 35% 6%;
-  --shadow-prim-xs: 0 1px 2px hsl(var(--shadow-color) / 0.3);
-  --shadow-prim-sm: 0 2px 8px hsl(var(--shadow-color) / 0.28);
-  --shadow-prim-md: 0 8px 24px hsl(var(--shadow-color) / 0.3);
-  --shadow-prim-lg: 0 16px 40px hsl(var(--shadow-color) / 0.34);
-  --shadow-prim-xl: 0 24px 64px hsl(var(--shadow-color) / 0.4);
+  /*
+   * Elevation (shadows) — exclusive to floating layers (tooltip, dropdown,
+   * modal). Cards never carry a shadow; separation there comes from
+   * --border contrast only. Light-mode values below; dark-mode equivalents
+   * (more opaque + supporting border) live in semantic.css's `.dark` block.
+   */
+  --shadow-prim-tooltip: 0 2px 8px rgb(0 0 0 / 0.12);
+  --shadow-prim-dropdown: 0 4px 16px rgb(0 0 0 / 0.1), 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-prim-modal: 0 16px 40px rgb(0 0 0 / 0.14), 0 2px 8px rgb(0 0 0 / 0.08);
 
   /*
    * Motion primitives — also `-prim-` infixed; registered as real
-   * `duration-*`/`ease-*` utilities in globals.css.
+   * `duration-*`/`ease-*` utilities in globals.css. `--duration-prim-base`
+   * is reserved for hover color transitions on clickable elements (150–200ms);
+   * cards get no hover/entrance animation at all.
    */
   --duration-prim-fast: 120ms;
-  --duration-prim-base: 200ms;
+  --duration-prim-base: 180ms;
   --duration-prim-slow: 320ms;
   --ease-prim-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-prim-emphasized: cubic-bezier(0.2, 0, 0, 1);

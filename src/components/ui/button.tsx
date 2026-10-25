@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors duration-base disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-pill text-sm font-medium transition-colors duration-base disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -13,6 +13,7 @@ export const buttonVariants = cva(
         outline: "border border-border bg-transparent hover:bg-accent/60",
         ghost: "hover:bg-accent/60",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        inverse: "bg-inverse text-inverse-foreground hover:opacity-90",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

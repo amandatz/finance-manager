@@ -25,7 +25,7 @@ export default function DesignSystemOverviewPage() {
               <Link
                 key={href}
                 href={href}
-                className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-surface px-4 py-3 transition-colors duration-base hover:border-primary/40"
+                className="group flex items-center justify-between gap-3 rounded-card border border-border bg-surface px-4 py-3 transition-colors duration-base hover:border-primary/40"
               >
                 <span className="flex items-center gap-2.5 text-sm font-medium">
                   <Icon className="h-4 w-4 text-muted-foreground" />
@@ -48,7 +48,7 @@ export default function DesignSystemOverviewPage() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {DS_ROADMAP.map(({ category, items }) => (
-            <div key={category} className="rounded-xl border border-dashed border-border p-4">
+            <div key={category} className="rounded-card border border-dashed border-border p-4">
               <p className="mb-2 text-sm font-medium text-muted-foreground">{category}</p>
               <ul className="flex flex-col gap-1 text-sm text-muted-foreground/80">
                 {items.map((item) => (

@@ -1,47 +1,26 @@
-"use client";
-
-import { motion } from "motion/react";
 import { CategoryBreakdownChart } from "@/components/dashboard/category-breakdown-chart";
-import { SummaryCard } from "@/components/dashboard/summary-card";
+import { ExportButton } from "@/components/dashboard/export-button";
+import { FeaturedStatCards } from "@/components/dashboard/featured-stat-cards";
+import { RecentActivity } from "@/components/dashboard/recent-activity";
+import { TransactionsTable } from "@/components/dashboard/transactions-table";
 import { TrendChart } from "@/components/dashboard/trend-chart";
-import { categoryBreakdown, monthlyTrend, summaryStats } from "@/lib/mock-data";
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0 },
-};
+import { categoryBreakdown, monthlyTrend, recentTransactions, summaryStats } from "@/lib/mock-data";
 
 export default function OverviewPage() {
   return (
-    <div className="flex flex-col gap-6">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4"
-      >
-        {summaryStats.map((stat) => (
-          <SummaryCard key={stat.label} {...stat} />
-        ))}
-      </motion.div>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="grid grid-cols-1 gap-4 xl:grid-cols-2"
-      >
-        <motion.div variants={fadeUpVariants}>
-          <TrendChart data={monthlyTrend} />
-        </motion.div>
-        <motion.div variants={fadeUpVariants}>
+    <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_300px]">
+      <div className="flex flex-col gap-4">
+        <TrendChart data={monthlyTrend} />
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <CategoryBreakdownChart data={categoryBreakdown} />
-        </motion.div>
-      </motion.div>
+          <RecentActivity transactions={recentTransactions} />
+        </div>
+        <TransactionsTable transactions={recentTransactions} />
+      </div>
+      <div className="flex flex-col gap-4">
+        <FeaturedStatCards stats={summaryStats} trend={monthlyTrend} />
+        <ExportButton transactions={recentTransactions} />
+      </div>
     </div>
   );
 }

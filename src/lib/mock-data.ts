@@ -1,4 +1,4 @@
-import type { CategoryBreakdownItem, SummaryStat, TrendPoint } from "@/types/finance";
+import type { CategoryBreakdownItem, SummaryStat, Transaction, TrendPoint } from "@/types/finance";
 
 export const summaryStats: SummaryStat[] = [
   { label: "Total balance", value: 18420.55, changePercent: 4.2 },
@@ -24,4 +24,13 @@ export const monthlyTrend: TrendPoint[] = [
   { month: "Aug", income: 6050, expenses: 4500 },
   { month: "Sep", income: 6150, expenses: 3600 },
   { month: "Oct", income: 6200, expenses: 3840 },
+];
+
+export const recentTransactions: Transaction[] = [
+  { id: "TX-2381", date: "Oct 18", description: "Salary deposit", category: "Income", account: "Checking", amount: 6200, status: "Paid" },
+  { id: "TX-2379", date: "Oct 17", description: "Whole Foods Market", category: "Groceries", account: "Checking", amount: -84.2, status: "Paid" },
+  { id: "TX-2375", date: "Oct 15", description: "Electric & gas bill", category: "Utilities", account: "Checking", amount: -112.5, status: "Pending" },
+  { id: "TX-2370", date: "Oct 12", description: "Rideshare", category: "Transport", account: "Credit card", amount: -23.4, status: "Paid" },
+  { id: "TX-2364", date: "Oct 9", description: "Rent", category: "Housing", account: "Checking", amount: -1400, status: "Paid" },
+  { id: "TX-2358", date: "Oct 6", description: "Movie night", category: "Leisure", account: "Credit card", amount: -38.9, status: "Paid" },
 ];

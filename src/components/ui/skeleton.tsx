@@ -13,8 +13,8 @@ export function Skeleton({ shape = "rect", className, ...props }: SkeletonProps)
       className={cn(
         "animate-pulse bg-muted",
         shape === "circle" && "rounded-pill",
-        shape === "text" && "h-4 rounded-md",
-        shape === "rect" && "rounded-lg",
+        shape === "text" && "h-4 rounded-sm",
+        shape === "rect" && "rounded-md",
         className,
       )}
       {...props}

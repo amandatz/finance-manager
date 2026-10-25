@@ -15,3 +15,13 @@ export interface TrendPoint {
   income: number;
   expenses: number;
 }
+
+export interface Transaction {
+  id: string;
+  date: string;
+  description: string;
+  category: string;
+  account: string;
+  amount: number;
+  status: "Paid" | "Pending";
+}

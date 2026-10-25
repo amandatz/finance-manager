@@ -23,7 +23,7 @@ export default function EmptyStatePage() {
             title="No transactions yet"
             description="Once you add an account, transactions will show up here."
             action={
-              <button type="button" className="rounded-lg bg-primary px-3.5 py-2 text-sm font-medium text-primary-foreground">
+              <button type="button" className="rounded-pill bg-primary px-3.5 py-2 text-sm font-medium text-primary-foreground">
                 Add an account
               </button>
             }

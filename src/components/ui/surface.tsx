@@ -11,7 +11,7 @@ export function Surface({ elevated = false, bordered = true, className, ...props
   return (
     <div
       className={cn(
-        "rounded-xl",
+        "rounded-card",
         elevated ? "bg-surface-elevated text-surface-elevated-foreground" : "bg-surface text-surface-foreground",
         bordered && "border border-border",
         className,

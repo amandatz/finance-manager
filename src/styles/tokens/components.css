@@ -10,9 +10,41 @@
   --control-height-md: 2.5rem;
   --control-height-lg: 3rem;
 
-  --card-radius: var(--radius-prim-xl);
-  --card-padding: 1.5rem;
+  --card-radius: var(--radius-prim-card);
+  --card-padding: 1.25rem; /* 20px, lower end of the 20–24px range */
 
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
+
+  /*
+   * Inverse — an always-dark accent surface, independent of the active
+   * theme (neutral-950 reads the same in light and dark mode). Used
+   * sparingly for the floating nav rail and tooltips, as a recurring
+   * "dark accent" motif rather than a theme-dependent surface.
+   */
+  --inverse: var(--neutral-950);
+  --inverse-foreground: var(--neutral-50);
+  --inverse-muted-foreground: var(--neutral-400);
+
+  /*
+   * Nav rail dimensions (design-system.md §6A). Collapsed is the default,
+   * icon-only state; expanded is user-controlled and remembered.
+   */
+  --rail-width-icon: 72px;
+  --rail-width-expanded: 16rem; /* 256px, same as the pre-existing w-64 */
+  --rail-icon-button-size: 40px;
+  --rail-badge-size: 16px;
+
+  /*
+   * Decorative diagonal hatch, built from tokens that already vary by
+   * theme (--border) — no separate light/dark declaration needed.
+   */
+  --pattern-hatch: repeating-linear-gradient(135deg, var(--border) 0, var(--border) 2px, transparent 2px, transparent 6px);
+  --pattern-hatch-inverse: repeating-linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.18) 0,
+    oklch(1 0 0 / 0.18) 2px,
+    transparent 2px,
+    transparent 6px
+  );
 }

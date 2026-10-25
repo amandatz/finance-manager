@@ -69,7 +69,7 @@ export function Tooltip({ children, content, side = "top", delay = 300 }: Toolti
             style={{ ...floatingStyles, ...transitionStyles }}
             {...getFloatingProps()}
             className={cn(
-              "z-[var(--z-tooltip)] rounded-lg bg-surface-elevated px-2.5 py-1.5 text-xs font-medium text-surface-elevated-foreground shadow-md",
+              "z-[var(--z-tooltip)] rounded-sm bg-surface-elevated px-2.5 py-1.5 text-xs font-medium text-surface-elevated-foreground shadow-tooltip dark:border dark:border-[var(--shadow-elevated-border)]",
             )}
           >
             {content}

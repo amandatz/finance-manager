@@ -23,7 +23,7 @@ export function PlaygroundPreview({ children, className }: { children: ReactNode
   const [override, setOverride] = useState<PreviewOverride>("auto");
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border">
+    <div className="overflow-hidden rounded-card border border-border">
       <div className="flex items-center justify-end gap-1 border-b border-border bg-muted px-2 py-1.5">
         <div role="group" aria-label="Preview theme" className="inline-flex items-center gap-0.5">
           {OPTIONS.map(({ value, label, icon: Icon }) => (

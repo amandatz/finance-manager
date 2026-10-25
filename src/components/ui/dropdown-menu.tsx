@@ -128,7 +128,7 @@ export function DropdownMenuContent({ children, className }: { children: ReactNo
           style={ctx.floatingStyles}
           {...ctx.getFloatingProps()}
           className={cn(
-            "z-[var(--z-dropdown)] min-w-40 rounded-xl border border-border bg-surface-elevated p-1 shadow-lg",
+            "z-[var(--z-dropdown)] min-w-40 rounded-card border border-border bg-surface-elevated p-1 shadow-dropdown dark:border-[var(--shadow-elevated-border)]",
             className,
           )}
         >
@@ -159,7 +159,7 @@ export function DropdownMenuItem({ children, onSelect, destructive, disabled }: 
       disabled={disabled}
       tabIndex={isActive ? 0 : -1}
       className={cn(
-        "flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm transition-colors duration-base",
+        "flex w-full items-center gap-2 rounded-sm px-2.5 py-2 text-left text-sm transition-colors duration-base",
         destructive ? "text-destructive" : "text-foreground",
         isActive && "bg-accent",
         disabled && "pointer-events-none opacity-50",

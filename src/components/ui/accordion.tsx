@@ -43,7 +43,7 @@ export function Accordion({ type = "single", defaultValue, children, className, 
 
   return (
     <AccordionContext.Provider value={{ type, openItems, toggle }}>
-      <div className={cn("flex flex-col divide-y divide-border rounded-xl border border-border", className)} {...props}>
+      <div className={cn("flex flex-col divide-y divide-border rounded-card border border-border", className)} {...props}>
         {children}
       </div>
     </AccordionContext.Provider>

@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 
 export function PlaygroundControls({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-wrap gap-4 rounded-xl border border-border bg-surface p-4">{children}</div>
+    <div className="flex flex-wrap gap-4 rounded-card border border-border bg-surface p-4">{children}</div>
   );
 }
 
@@ -37,7 +37,7 @@ export function SelectControl<T extends string>({
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value as T)}
-        className="h-9 rounded-lg border border-input bg-background px-2.5 text-sm text-foreground"
+        className="h-9 rounded-field border border-input bg-background px-2.5 text-sm text-foreground"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -76,7 +76,7 @@ export function SwitchControl({
       >
         <span
           className={cn(
-            "absolute top-0.5 left-0.5 h-5 w-5 rounded-pill bg-surface shadow-sm transition-transform duration-base",
+            "absolute top-0.5 left-0.5 h-5 w-5 rounded-pill border border-border bg-surface transition-transform duration-base",
             checked && "translate-x-4",
           )}
         />
@@ -104,7 +104,7 @@ export function TextControl({
         type="text"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-9 w-48 rounded-lg border border-input bg-background px-2.5 text-sm text-foreground"
+        className="h-9 w-48 rounded-field border border-input bg-background px-2.5 text-sm text-foreground"
       />
     </div>
   );

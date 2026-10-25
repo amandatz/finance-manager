@@ -13,7 +13,7 @@ const GAPS = ["none", "xs", "sm", "md", "lg", "xl"] as const;
 
 function Box({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-xs font-medium text-primary-foreground">
+    <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-primary text-xs font-medium text-primary-foreground">
       {children}
     </div>
   );

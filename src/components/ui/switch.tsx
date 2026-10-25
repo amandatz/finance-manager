@@ -17,7 +17,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ className, ..
         {...props}
       />
       <span className="pointer-events-none absolute inset-0 rounded-pill bg-muted transition-colors duration-base peer-checked:bg-primary peer-disabled:opacity-50" />
-      <span className="pointer-events-none absolute top-0.5 left-0.5 h-5 w-5 rounded-pill bg-surface shadow-sm transition-transform duration-base peer-checked:translate-x-4" />
+      <span className="pointer-events-none absolute top-0.5 left-0.5 h-5 w-5 rounded-pill border border-border bg-surface transition-transform duration-base peer-checked:translate-x-4" />
     </span>
   );
 });

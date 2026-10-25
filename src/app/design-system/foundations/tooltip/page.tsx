@@ -31,7 +31,7 @@ export default function TooltipPage() {
           <Tooltip content="Balances update every 15 minutes" side={side}>
             <button
               type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-foreground"
+              className="flex h-9 w-9 items-center justify-center rounded-pill border border-border text-muted-foreground hover:text-foreground"
             >
               <Info className="h-4 w-4" />
             </button>

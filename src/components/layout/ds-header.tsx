@@ -16,7 +16,7 @@ export function DsHeader({ onOpenMobileNav }: { onOpenMobileNav: () => void }) {
           type="button"
           onClick={onOpenMobileNav}
           aria-label="Open navigation"
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent/60 hover:text-foreground md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-pill text-muted-foreground hover:bg-accent/60 hover:text-foreground md:hidden"
         >
           <Menu className="h-4 w-4" />
         </button>

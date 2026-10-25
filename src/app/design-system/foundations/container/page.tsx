@@ -26,7 +26,7 @@ export default function ContainerPage() {
       <DocSection title="Preview">
         <PlaygroundPreview className="w-full items-stretch bg-muted p-0">
           <Container size={size} className="py-6">
-            <div className="rounded-lg bg-surface py-4 text-center text-sm">{size}</div>
+            <div className="rounded-sm bg-surface py-4 text-center text-sm">{size}</div>
           </Container>
         </PlaygroundPreview>
         <PlaygroundControls>

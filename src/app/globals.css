@@ -36,7 +36,15 @@
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
 
+  /* Status text — green/red reserved for text color, never a background fill. */
+  --color-status-success: var(--status-success);
+  --color-status-danger: var(--status-danger);
+
   --color-overlay: var(--overlay);
+
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-inverse-muted-foreground: var(--inverse-muted-foreground);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -45,12 +53,27 @@
   --color-chart-5: var(--chart-5);
   --color-chart-6: var(--chart-6);
 
-  --font-sans: var(--font-geist-sans);
+  /*
+   * Shadow is exclusive to floating layers (tooltip, dropdown, modal) — no
+   * card/button shadow utility exists anymore. Values differ between light
+   * and dark mode (see semantic.css's `:root`/`.light` and `.dark` blocks),
+   * so — like color — they're registered `inline` rather than in the plain
+   * @theme block below.
+   */
+  --shadow-tooltip: var(--shadow-elevated-tooltip);
+  --shadow-dropdown: var(--shadow-elevated-dropdown);
+  --shadow-modal: var(--shadow-elevated-modal);
+  --color-shadow-elevated-border: var(--shadow-elevated-border, transparent);
+
+  --color-gradient-kpi-secondary-foreground: var(--gradient-kpi-secondary-foreground);
+  --color-gradient-kpi-tertiary-foreground: var(--gradient-kpi-tertiary-foreground);
+
+  --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
 }
 
 /*
- * Radius/shadow don't vary by theme, so they're registered with a plain
+ * Radius doesn't vary by theme, so it's registered with a plain
  * (non-inline) @theme block directly from the primitives.
  */
 @theme {
@@ -61,12 +84,8 @@
   --radius-xl: var(--radius-prim-xl);
   --radius-2xl: var(--radius-prim-2xl);
   --radius-pill: var(--radius-prim-pill);
-
-  --shadow-xs: var(--shadow-prim-xs);
-  --shadow-sm: var(--shadow-prim-sm);
-  --shadow-md: var(--shadow-prim-md);
-  --shadow-lg: var(--shadow-prim-lg);
-  --shadow-xl: var(--shadow-prim-xl);
+  --radius-card: var(--radius-prim-card);
+  --radius-field: var(--radius-prim-field);
 
   --duration-fast: var(--duration-prim-fast);
   --duration-base: var(--duration-prim-base);
@@ -74,6 +93,24 @@
 
   --ease-standard: var(--ease-prim-standard);
   --ease-emphasized: var(--ease-prim-emphasized);
+
+  /*
+   * Typography hierarchy (design-system.md §5.2). Each pairs a font-size
+   * with its line-height via Tailwind v4's `<size>--<line-height>` theme
+   * syntax; weight is applied by the component (CVA/class) alongside it.
+   */
+  --text-title: 1.5rem; /* 24px */
+  --text-title--line-height: 1.25;
+  --text-subtitle: 0.875rem; /* 14px */
+  --text-subtitle--line-height: 1.4;
+  --text-number-lg: 2rem; /* 32px */
+  --text-number-lg--line-height: 1.15;
+  --text-number-md: 1.25rem; /* 20px */
+  --text-number-md--line-height: 1.2;
+  --text-body: 0.875rem; /* 14px */
+  --text-body--line-height: 1.5;
+  --text-label: 0.75rem; /* 12px */
+  --text-label--line-height: 1.33;
 }
 
 @layer base {
@@ -94,8 +131,8 @@
   }
 
   ::selection {
-    background: var(--lavender-300);
-    color: var(--ink-950);
+    background: var(--neutral-300);
+    color: var(--neutral-950);
   }
 }
 

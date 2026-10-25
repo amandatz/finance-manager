@@ -11,29 +11,29 @@
  */
 :root,
 .light {
-  --background: var(--ink-50);
-  --foreground: var(--ink-950);
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
 
-  --surface: #ffffff;
-  --surface-foreground: var(--ink-950);
-  --surface-elevated: #ffffff;
-  --surface-elevated-foreground: var(--ink-950);
+  --surface: var(--neutral-0);
+  --surface-foreground: var(--neutral-900);
+  --surface-elevated: var(--neutral-0);
+  --surface-elevated-foreground: var(--neutral-900);
 
-  --primary: var(--lavender-600);
-  --primary-foreground: #ffffff;
+  --primary: var(--neutral-900);
+  --primary-foreground: var(--neutral-0);
 
-  --secondary: var(--ink-100);
-  --secondary-foreground: var(--ink-900);
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--neutral-900);
 
-  --muted: var(--ink-100);
-  --muted-foreground: var(--ink-600);
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-500);
 
-  --accent: var(--lavender-100);
-  --accent-foreground: var(--lavender-900);
+  --accent: var(--neutral-900);
+  --accent-foreground: var(--neutral-0);
 
-  --border: var(--ink-200);
-  --input: var(--ink-300);
-  --ring: var(--lavender-500);
+  --border: var(--neutral-200);
+  --input: var(--neutral-300);
+  --ring: var(--neutral-900);
 
   --success: var(--color-emerald-600);
   --success-foreground: #ffffff;
@@ -44,40 +44,69 @@
   --info: var(--color-sky-600);
   --info-foreground: #ffffff;
 
-  --overlay: hsl(260 35% 6% / 0.45);
+  /* Status text — spec: green/red appear only as text color, never as a fill. */
+  --status-success: var(--status-success-text);
+  --status-danger: var(--status-danger-text);
 
-  --chart-1: var(--lavender-500);
-  --chart-2: var(--color-sky-500);
-  --chart-3: var(--color-amber-500);
+  --overlay: hsl(240 10% 4% / 0.45);
+
+  --chart-1: var(--lilac-500);
+  --chart-2: var(--lilac-400);
+  --chart-3: var(--lilac-300);
   --chart-4: var(--color-emerald-500);
   --chart-5: var(--color-rose-500);
-  --chart-6: var(--ink-400);
+  --chart-6: var(--neutral-400);
+
+  /*
+   * KPI accent gradient — reserved for exactly one highlighted KPI card
+   * (e.g. "Total Balance"). Black-as-destaque in light mode, same
+   * structural role as --accent.
+   */
+  --gradient-kpi-accent: linear-gradient(160deg, var(--neutral-800), var(--neutral-950));
+  --gradient-kpi-accent-foreground: var(--neutral-0);
+
+  /*
+   * KPI secondary/tertiary gradients — "Income"/"Expenses" cards (design-
+   * system.md §6.1, revision 2). Each card gets its own saturated hue family
+   * (lilac / clay) rather than a diluted tint — the first version (10–14%
+   * mix) was visually imperceptible to the user. Lilac here is a documented
+   * exception to "lilac only in charts" (§1.2): --lilac-600 is exclusive to
+   * this gradient and never used by --chart-*.
+   */
+  --gradient-kpi-secondary: linear-gradient(160deg, var(--lilac-400), var(--lilac-600));
+  --gradient-kpi-secondary-foreground: var(--neutral-0);
+  --gradient-kpi-tertiary: linear-gradient(160deg, var(--clay-300), var(--clay-500));
+  --gradient-kpi-tertiary-foreground: var(--neutral-900);
+
+  --shadow-elevated-tooltip: var(--shadow-prim-tooltip);
+  --shadow-elevated-dropdown: var(--shadow-prim-dropdown);
+  --shadow-elevated-modal: var(--shadow-prim-modal);
 }
 
 .dark {
-  --background: var(--ink-950);
-  --foreground: var(--ink-50);
+  --background: var(--neutral-950);
+  --foreground: var(--neutral-50);
 
-  --surface: var(--ink-900);
-  --surface-foreground: var(--ink-50);
-  --surface-elevated: var(--ink-800);
-  --surface-elevated-foreground: var(--ink-50);
+  --surface: var(--neutral-900);
+  --surface-foreground: var(--neutral-50);
+  --surface-elevated: var(--neutral-800);
+  --surface-elevated-foreground: var(--neutral-50);
 
-  --primary: var(--lavender-400);
-  --primary-foreground: var(--ink-950);
+  --primary: var(--neutral-50);
+  --primary-foreground: var(--neutral-950);
 
-  --secondary: var(--ink-800);
-  --secondary-foreground: var(--ink-50);
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-50);
 
-  --muted: var(--ink-800);
-  --muted-foreground: var(--ink-400);
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
 
-  --accent: var(--lavender-950);
-  --accent-foreground: var(--lavender-200);
+  --accent: var(--neutral-50);
+  --accent-foreground: var(--neutral-950);
 
-  --border: var(--ink-800);
-  --input: var(--ink-700);
-  --ring: var(--lavender-400);
+  --border: var(--neutral-800);
+  --input: var(--neutral-700);
+  --ring: var(--neutral-50);
 
   --success: var(--color-emerald-400);
   --success-foreground: var(--color-emerald-950);
@@ -88,12 +117,39 @@
   --info: var(--color-sky-400);
   --info-foreground: var(--color-sky-950);
 
-  --overlay: hsl(260 35% 2% / 0.6);
+  /* Status text — spec: green/red appear only as text color, never as a fill. */
+  --status-success: var(--status-success-text-dark);
+  --status-danger: var(--status-danger-text-dark);
 
-  --chart-1: var(--lavender-400);
-  --chart-2: var(--color-sky-400);
-  --chart-3: var(--color-amber-400);
+  --overlay: hsl(240 10% 2% / 0.6);
+
+  --chart-1: var(--lilac-500);
+  --chart-2: var(--lilac-400);
+  --chart-3: var(--lilac-300);
   --chart-4: var(--color-emerald-400);
   --chart-5: var(--color-rose-400);
-  --chart-6: var(--ink-400);
+  --chart-6: var(--neutral-400);
+
+  /*
+   * Dark mode: "black as destaque" inverts to "white as destaque" (same
+   * structural role as --accent flipping to neutral-50) — a dark-on-dark
+   * gradient would have no contrast against the already-dark page.
+   */
+  --gradient-kpi-accent: linear-gradient(160deg, var(--neutral-100), var(--neutral-50));
+  --gradient-kpi-accent-foreground: var(--neutral-950);
+
+  /*
+   * Dark mode: same saturated lilac/clay families as light mode, one step
+   * darker in each stop (design-system.md §6.2) so they don't read as too
+   * light against an already-dark page.
+   */
+  --gradient-kpi-secondary: linear-gradient(160deg, var(--lilac-500), var(--lilac-700));
+  --gradient-kpi-secondary-foreground: var(--neutral-50);
+  --gradient-kpi-tertiary: linear-gradient(160deg, var(--clay-500), var(--clay-700));
+  --gradient-kpi-tertiary-foreground: var(--neutral-950);
+
+  --shadow-elevated-tooltip: 0 2px 8px rgb(0 0 0 / 0.4);
+  --shadow-elevated-dropdown: 0 4px 16px rgb(0 0 0 / 0.45), 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-elevated-modal: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.35);
+  --shadow-elevated-border: var(--neutral-700);
 }
