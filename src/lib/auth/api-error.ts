@@ -9,12 +9,15 @@ import type { ProblemDetails, ValidationProblemDetails } from "@/types/auth";
 export class ApiError extends Error {
   readonly status: number;
   readonly errors?: Record<string, string[]>;
+  /** `propertyName` extension on a plain Problem Details body, when present (camelCase field name). */
+  readonly propertyName?: string;
 
-  constructor(message: string, status: number, errors?: Record<string, string[]>) {
+  constructor(message: string, status: number, errors?: Record<string, string[]>, propertyName?: string) {
     super(message);
     this.name = "ApiError";
     this.status = status;
     this.errors = errors;
+    this.propertyName = propertyName;
   }
 }
 
@@ -53,8 +56,8 @@ export async function toApiError(response: Response): Promise<ApiError> {
   }
 
   if (body && typeof body === "object" && "title" in body) {
-    const problem = body as ProblemDetails;
-    return new ApiError(problem.title, response.status);
+    const problem = body as ProblemDetails & { propertyName?: string };
+    return new ApiError(problem.title, response.status, undefined, problem.propertyName);
   }
 
   return new ApiError("Something went wrong. Please try again.", response.status);
