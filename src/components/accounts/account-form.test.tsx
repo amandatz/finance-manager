@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "@/lib/auth/api-error";
@@ -104,6 +104,25 @@ describe("AccountForm", () => {
 
     expect(await screen.findByRole("alert")).toHaveTextContent(/something went wrong/i);
     expect(pushMock).not.toHaveBeenCalled();
+  });
+
+  it("sends a single POST when the submit button is double-clicked rapidly (BUG-1)", async () => {
+    createMock.mockResolvedValueOnce(account());
+    const user = userEvent.setup();
+
+    render(<AccountForm />);
+
+    await user.type(screen.getByLabelText(/^name/i), "Main Checking");
+    await user.selectOptions(screen.getByLabelText(/^type/i), "Bank");
+
+    const submitButton = screen.getByRole("button", { name: /create account/i });
+    fireEvent.click(submitButton);
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/dashboard/accounts");
+    });
+    expect(createMock).toHaveBeenCalledTimes(1);
   });
 
   it("pre-fills the form when editing and disables the Type field (AC 13)", async () => {

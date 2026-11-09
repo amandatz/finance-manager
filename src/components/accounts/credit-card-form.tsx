@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
@@ -50,6 +50,7 @@ export function CreditCardForm({ card }: { card?: CreditCard }) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   useEffect(() => {
     listFinancialAccounts()
@@ -95,13 +96,14 @@ export function CreditCardForm({ card }: { card?: CreditCard }) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (isSubmitting) return;
+    if (isSubmittingRef.current) return;
 
     setFormError(null);
     const errors = validate();
     setFieldErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
+    isSubmittingRef.current = true;
     setIsSubmitting(true);
     try {
       const payload = {
@@ -120,6 +122,7 @@ export function CreditCardForm({ card }: { card?: CreditCard }) {
     } catch (error) {
       handleSubmitError(error);
     } finally {
+      isSubmittingRef.current = false;
       setIsSubmitting(false);
     }
   }

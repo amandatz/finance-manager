@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "@/lib/auth/api-error";
@@ -234,6 +234,25 @@ describe("CreditCardForm", () => {
     await user.click(screen.getByRole("button", { name: /create credit card/i }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent(/something went wrong/i);
+  });
+
+  it("sends a single POST when the submit button is double-clicked rapidly (BUG-1)", async () => {
+    createMock.mockResolvedValueOnce(card());
+    const user = userEvent.setup();
+
+    render(<CreditCardForm />);
+    await screen.findByText("Main Checking");
+
+    await fillValidCard(user);
+
+    const submitButton = screen.getByRole("button", { name: /create credit card/i });
+    fireEvent.click(submitButton);
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/dashboard/accounts/cards");
+    });
+    expect(createMock).toHaveBeenCalledTimes(1);
   });
 
   it("pre-fills the form when editing and saves via a single PUT call (AC 19)", async () => {
