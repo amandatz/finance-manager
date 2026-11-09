@@ -6,9 +6,10 @@ import { getStoredTokens, storeTokens } from "@/lib/auth/token-storage";
 import { Topbar } from "./topbar";
 
 const pushMock = vi.fn();
+let pathname = "/dashboard";
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/dashboard",
+  usePathname: () => pathname,
   useRouter: () => ({ push: pushMock, replace: vi.fn() }),
 }));
 
@@ -23,6 +24,7 @@ describe("Topbar logout", () => {
     window.localStorage.clear();
     pushMock.mockClear();
     logoutMock.mockReset();
+    pathname = "/dashboard";
     storeTokens({ accessToken: "access-123", refreshToken: "refresh-456" });
   });
 
@@ -61,5 +63,40 @@ describe("Topbar logout", () => {
     });
 
     expect(getStoredTokens()).toBeNull();
+  });
+});
+
+describe("Topbar title/subtitle resolution", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456" });
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
+  });
+
+  it("resolves the Credit cards tab to the Accounts title", () => {
+    pathname = "/dashboard/accounts/cards";
+    render(<Topbar />);
+    expect(screen.getByRole("heading", { name: "Accounts" })).toBeInTheDocument();
+  });
+
+  it("resolves a dynamic account edit route (e.g. a UUID segment)", () => {
+    pathname = "/dashboard/accounts/6f1a2e2a-9b3b-4b7a-8f0a-2a3b4c5d6e7f/edit";
+    render(<Topbar />);
+    expect(screen.getByRole("heading", { name: "Edit account" })).toBeInTheDocument();
+  });
+
+  it("resolves a dynamic credit card edit route", () => {
+    pathname = "/dashboard/accounts/cards/6f1a2e2a-9b3b-4b7a-8f0a-2a3b4c5d6e7f/edit";
+    render(<Topbar />);
+    expect(screen.getByRole("heading", { name: "Edit credit card" })).toBeInTheDocument();
+  });
+
+  it("falls back to a generic title for an unknown route", () => {
+    pathname = "/dashboard/unknown";
+    render(<Topbar />);
+    expect(screen.getByRole("heading", { name: "Dashboard" })).toBeInTheDocument();
   });
 });
