@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { CreditCardVisual } from "@/components/accounts/credit-card-visual";
 import { ApiError } from "@/lib/auth/api-error";
 import { createCreditCard, listFinancialAccounts, updateCreditCard } from "@/lib/accounts/accounts-client";
 import type { CreditCard, FinancialAccount } from "@/types/accounts";
@@ -157,8 +158,21 @@ export function CreditCardForm({ card }: { card?: CreditCard }) {
     setFormError(GENERIC_ERROR);
   }
 
+  const previewLimit = creditLimit.trim() && Number.isFinite(Number(creditLimit)) ? Number(creditLimit) : null;
+  const previewDueDay = paymentDueDay.trim() && Number.isFinite(Number(paymentDueDay)) ? Number(paymentDueDay) : null;
+  const previewSettlementAccountName = settlementAccountId
+    ? activeAccounts.find((account) => account.id === settlementAccountId)?.name ?? null
+    : null;
+
   return (
     <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit}>
+      <CreditCardVisual
+        brand={brand.trim() ? brand : null}
+        creditLimit={previewLimit}
+        paymentDueDay={previewDueDay}
+        settlementAccountName={previewSettlementAccountName}
+      />
+
       <FormField label="Brand" error={fieldErrors.brand} helperText="e.g. Visa, Mastercard, Elo">
         <Input value={brand} onChange={(event) => setBrand(event.target.value)} maxLength={50} />
       </FormField>
