@@ -5,13 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AlertCircle, CreditCard as CreditCardIcon, MoreHorizontal } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { EmptyState } from "@/components/ui/empty-state";
 import { IconButton } from "@/components/ui/icon-button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { CreditCardVisual, CreditCardVisualSkeleton } from "@/components/accounts/credit-card-visual";
 import { deleteCreditCard, listCreditCards, listFinancialAccounts } from "@/lib/accounts/accounts-client";
-import { billingCycleLabel, formatCurrency } from "@/lib/accounts/format";
 import type { CreditCard, FinancialAccount } from "@/types/accounts";
 
 type Result =
@@ -47,10 +45,9 @@ export function CreditCardsPanel() {
   const cards = result.status === "success" ? result.cards : [];
   const activeAccounts = result.status === "success" ? result.activeAccounts : [];
 
-  function settlementAccountName(settlementAccountId: string | null): string {
-    if (!settlementAccountId) return "—";
-    const account = activeAccounts.find((a) => a.id === settlementAccountId);
-    return account?.name ?? "—";
+  function settlementAccountName(settlementAccountId: string | null): string | null {
+    if (!settlementAccountId) return null;
+    return activeAccounts.find((a) => a.id === settlementAccountId)?.name ?? null;
   }
 
   async function handleDelete(card: CreditCard) {
@@ -65,52 +62,25 @@ export function CreditCardsPanel() {
     }
   }
 
-  const columns: DataTableColumn<CreditCard>[] = [
-    {
-      key: "brand",
-      header: "Card",
-      sortable: true,
-      accessor: (row) => row.brand ?? "Credit card",
-    },
-    {
-      key: "creditLimit",
-      header: "Limit",
-      sortable: true,
-      accessor: (row) => row.creditLimit,
-      render: (row) => <span className="block text-right">{formatCurrency(row.creditLimit)}</span>,
-    },
-    {
-      key: "billingCycle",
-      header: "Billing cycle",
-      render: (row) => billingCycleLabel(row.statementClosingDay, row.paymentDueDay),
-    },
-    {
-      key: "settlementAccount",
-      header: "Settlement account",
-      render: (row) => settlementAccountName(row.settlementAccountId),
-    },
-    {
-      key: "actions",
-      header: "Actions",
-      render: (row) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <IconButton aria-label={`Actions for ${row.brand ?? "credit card"}`} variant="ghost" size="sm">
-              <MoreHorizontal className="h-4 w-4" />
-            </IconButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onSelect={() => router.push(`/dashboard/accounts/cards/${row.id}/edit`)}>
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem destructive onSelect={() => handleDelete(row)}>
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    },
-  ];
+  function cardActions(row: CreditCard) {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <IconButton aria-label={`Actions for ${row.brand ?? "credit card"}`} variant="ghost" size="sm">
+            <MoreHorizontal className="h-4 w-4" />
+          </IconButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={() => router.push(`/dashboard/accounts/cards/${row.id}/edit`)}>
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem destructive onSelect={() => handleDelete(row)}>
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -121,10 +91,10 @@ export function CreditCardsPanel() {
       </div>
 
       {state === "loading" && (
-        <div className="flex flex-col gap-2" data-testid="credit-cards-loading">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="credit-cards-loading">
+          <CreditCardVisualSkeleton />
+          <CreditCardVisualSkeleton />
+          <CreditCardVisualSkeleton />
         </div>
       )}
 
@@ -151,7 +121,20 @@ export function CreditCardsPanel() {
         />
       )}
 
-      {state === "success" && cards.length > 0 && <DataTable data={cards} columns={columns} getRowId={(row) => row.id} />}
+      {state === "success" && cards.length > 0 && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card) => (
+            <CreditCardVisual
+              key={card.id}
+              brand={card.brand}
+              creditLimit={card.creditLimit}
+              paymentDueDay={card.paymentDueDay}
+              settlementAccountName={settlementAccountName(card.settlementAccountId)}
+              actions={cardActions(card)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

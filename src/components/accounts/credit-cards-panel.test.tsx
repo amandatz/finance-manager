@@ -67,7 +67,16 @@ describe("CreditCardsPanel", () => {
     confirmSpy.mockRestore();
   });
 
-  it("lists credit cards with brand, limit, billing cycle, and settlement account (AC 17)", async () => {
+  it("shows a skeleton grid while credit cards are loading", async () => {
+    listCardsMock.mockReturnValueOnce(new Promise(() => {}));
+    listAccountsMock.mockReturnValueOnce(new Promise(() => {}));
+
+    render(<CreditCardsPanel />);
+
+    expect(screen.getByTestId("credit-cards-loading")).toBeInTheDocument();
+  });
+
+  it("lists credit cards with brand, limit, due day, and settlement account (AC 17)", async () => {
     listCardsMock.mockResolvedValueOnce([card()]);
     listAccountsMock.mockResolvedValueOnce([account()]);
 
@@ -75,8 +84,8 @@ describe("CreditCardsPanel", () => {
 
     expect(await screen.findByText("Visa")).toBeInTheDocument();
     expect(screen.getByText("$5,000.00")).toBeInTheDocument();
-    expect(screen.getByText("Closes 10 · Due 20")).toBeInTheDocument();
-    expect(screen.getByText("Main Checking")).toBeInTheDocument();
+    expect(screen.getByText("20")).toBeInTheDocument();
+    expect(screen.getByText("Settles to Main Checking")).toBeInTheDocument();
   });
 
   it('shows "Credit card" when brand is null', async () => {
@@ -88,26 +97,24 @@ describe("CreditCardsPanel", () => {
     expect(await screen.findByText("Credit card")).toBeInTheDocument();
   });
 
-  it("shows a dash when there is no settlement account (store card, AC 21)", async () => {
+  it("shows a neutral message when there is no settlement account (store card, AC 21)", async () => {
     listCardsMock.mockResolvedValueOnce([card({ settlementAccountId: null })]);
     listAccountsMock.mockResolvedValueOnce([account()]);
 
     render(<CreditCardsPanel />);
 
     await screen.findByText("Visa");
-    const row = screen.getByText("Visa").closest("tr");
-    expect(row).toHaveTextContent("—");
+    expect(screen.getByText("No settlement account")).toBeInTheDocument();
   });
 
-  it("shows a dash when the settlement account is archived (dangling reference)", async () => {
+  it("shows a neutral message when the settlement account is archived (dangling reference)", async () => {
     listCardsMock.mockResolvedValueOnce([card({ settlementAccountId: "archived-acc" })]);
     listAccountsMock.mockResolvedValueOnce([account()]);
 
     render(<CreditCardsPanel />);
 
     await screen.findByText("Visa");
-    const row = screen.getByText("Visa").closest("tr");
-    expect(row).toHaveTextContent("—");
+    expect(screen.getByText("No settlement account")).toBeInTheDocument();
   });
 
   it("shows an empty state with a CTA when there are no cards", async () => {

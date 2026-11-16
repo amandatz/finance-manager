@@ -78,6 +78,14 @@
   --gradient-kpi-tertiary: linear-gradient(160deg, var(--clay-300), var(--clay-500));
   --gradient-kpi-tertiary-foreground: var(--neutral-900);
 
+  /*
+   * Credit card visual (design-system.md §6) — same neutral family as
+   * --gradient-kpi-accent, named separately because it's semantically
+   * "credit card", not "KPI in focus".
+   */
+  --gradient-credit-card: linear-gradient(160deg, var(--neutral-800), var(--neutral-950));
+  --gradient-credit-card-foreground: var(--neutral-0);
+
   --shadow-elevated-tooltip: var(--shadow-prim-tooltip);
   --shadow-elevated-dropdown: var(--shadow-prim-dropdown);
   --shadow-elevated-modal: var(--shadow-prim-modal);
@@ -147,6 +155,9 @@
   --gradient-kpi-secondary-foreground: var(--neutral-50);
   --gradient-kpi-tertiary: linear-gradient(160deg, var(--clay-500), var(--clay-700));
   --gradient-kpi-tertiary-foreground: var(--neutral-950);
+
+  --gradient-credit-card: linear-gradient(160deg, var(--neutral-100), var(--neutral-50));
+  --gradient-credit-card-foreground: var(--neutral-950);
 
   --shadow-elevated-tooltip: 0 2px 8px rgb(0 0 0 / 0.4);
   --shadow-elevated-dropdown: 0 4px 16px rgb(0 0 0 / 0.45), 0 1px 2px rgb(0 0 0 / 0.3);
