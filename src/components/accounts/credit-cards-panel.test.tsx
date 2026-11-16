@@ -67,6 +67,15 @@ describe("CreditCardsPanel", () => {
     confirmSpy.mockRestore();
   });
 
+  it("shows a skeleton grid while credit cards are loading", async () => {
+    listCardsMock.mockReturnValueOnce(new Promise(() => {}));
+    listAccountsMock.mockReturnValueOnce(new Promise(() => {}));
+
+    render(<CreditCardsPanel />);
+
+    expect(screen.getByTestId("credit-cards-loading")).toBeInTheDocument();
+  });
+
   it("lists credit cards with brand, limit, due day, and settlement account (AC 17)", async () => {
     listCardsMock.mockResolvedValueOnce([card()]);
     listAccountsMock.mockResolvedValueOnce([account()]);

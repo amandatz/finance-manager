@@ -79,9 +79,9 @@
   --gradient-kpi-tertiary-foreground: var(--neutral-900);
 
   /*
-   * Credit card visual (design-system §6, docs/design/008-contas-cartoes.md
-   * §8.1) — same neutral family as --gradient-kpi-accent, named separately
-   * because it's semantically "credit card", not "KPI in focus".
+   * Credit card visual (design-system.md §6) — same neutral family as
+   * --gradient-kpi-accent, named separately because it's semantically
+   * "credit card", not "KPI in focus".
    */
   --gradient-credit-card: linear-gradient(160deg, var(--neutral-800), var(--neutral-950));
   --gradient-credit-card-foreground: var(--neutral-0);
