@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { login } from "@/lib/auth/auth-client";
@@ -129,6 +129,25 @@ describe("LoginPage", () => {
 
     resolveLogin({ accessToken: "access-123", refreshToken: "refresh-456" });
     await waitFor(() => expect(pushMock).toHaveBeenCalled());
+  });
+
+  it("sends a single login request when the submit button is double-clicked rapidly", async () => {
+    const user = userEvent.setup();
+    loginMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+
+    render(<LoginPage />);
+
+    await user.type(screen.getByLabelText(/email/i), "owner@example.com");
+    await user.type(screen.getByLabelText(/senha/i), "SomePassword123");
+
+    const submitButton = screen.getByRole("button", { name: /entrar/i });
+    fireEvent.click(submitButton);
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+    });
+    expect(loginMock).toHaveBeenCalledTimes(1);
   });
 
   it("has a link to create a new account at /register", () => {
