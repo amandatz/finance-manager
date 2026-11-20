@@ -19,6 +19,12 @@ const PAGE_COPY: Record<string, { title: string; subtitle: string }> = {
     title: "Edit credit card",
     subtitle: "Update this credit card's details",
   },
+  "/dashboard/transactions": { title: "Transactions", subtitle: "Every income and expense in one place" },
+  "/dashboard/transactions/new": { title: "Add transaction", subtitle: "Record a new income or expense" },
+  "/dashboard/transactions/[id]/edit": {
+    title: "Edit transaction",
+    subtitle: "Update this transaction's details",
+  },
   "/dashboard/budgets": { title: "Budgets", subtitle: "Track spending against your monthly targets" },
   "/dashboard/settings": { title: "Settings", subtitle: "Manage your profile and preferences" },
 };

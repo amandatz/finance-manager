@@ -86,6 +86,9 @@ export function AccountsPanel() {
             </IconButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuItem onSelect={() => router.push(`/dashboard/transactions?accountId=${row.id}`)}>
+              View transactions
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => router.push(`/dashboard/accounts/${row.id}/edit`)}>
               Edit
             </DropdownMenuItem>
