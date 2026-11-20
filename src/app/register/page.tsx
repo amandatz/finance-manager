@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormField } from "@/components/ui/form-field";
@@ -45,6 +45,7 @@ export default function RegisterPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [emailInUse, setEmailInUse] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   const hasHouseholdName = householdName.trim().length > 0;
   const hasInviteCode = inviteCode.trim().length > 0;
@@ -71,7 +72,7 @@ export default function RegisterPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (isSubmitting) return;
+    if (isSubmittingRef.current) return;
 
     const errors = validate();
     setFieldErrors(errors);
@@ -82,6 +83,7 @@ export default function RegisterPage() {
       return;
     }
 
+    isSubmittingRef.current = true;
     setIsSubmitting(true);
     try {
       const tokens = await register({
@@ -109,6 +111,7 @@ export default function RegisterPage() {
         setFormError(GENERIC_SERVER_ERROR);
       }
     } finally {
+      isSubmittingRef.current = false;
       setIsSubmitting(false);
     }
   }

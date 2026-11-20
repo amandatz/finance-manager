@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { register } from "@/lib/auth/auth-client";
@@ -221,6 +221,25 @@ describe("RegisterPage", () => {
 
     resolveRegister({ accessToken: "access-123", refreshToken: "refresh-456" });
     await waitFor(() => expect(pushMock).toHaveBeenCalled());
+  });
+
+  it("sends a single register request when the submit button is double-clicked rapidly", async () => {
+    const user = userEvent.setup();
+    registerMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+
+    render(<RegisterPage />);
+
+    await fillRequiredFields(user);
+    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
+
+    const submitButton = screen.getByRole("button", { name: /criar conta/i });
+    fireEvent.click(submitButton);
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+    });
+    expect(registerMock).toHaveBeenCalledTimes(1);
   });
 
   it("has a link back to /login", () => {
