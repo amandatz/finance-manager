@@ -1,37 +1,10 @@
-import { ApiError, toApiError } from "@/lib/auth/api-error";
-import { getAccessToken } from "@/lib/auth/token-storage";
+import { authenticatedRequest } from "@/lib/api/authenticated-fetch";
 import type { Category, CategoryRequest, TransactionEntry, TransactionListParams, TransactionRequest } from "@/types/ledger";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5228/api/v1";
 
-function authHeaders(): HeadersInit {
-  const token = getAccessToken();
-  return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
-}
-
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  let response: Response;
-  try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
-      ...init,
-      headers: { ...authHeaders(), ...init?.headers },
-    });
-  } catch {
-    throw new ApiError("Something went wrong. Please try again.", 0);
-  }
-
-  if (!response.ok) {
-    throw await toApiError(response);
-  }
-
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  return (await response.json()) as T;
+function request<T>(path: string, init?: RequestInit): Promise<T> {
+  return authenticatedRequest<T>(API_BASE_URL, path, init);
 }
 
 function buildQuery(params: TransactionListParams): string {
