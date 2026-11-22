@@ -36,12 +36,7 @@ export function Tooltip({ children, content, side = "top", delay = 300 }: Toolti
     open,
     onOpenChange: setOpen,
     placement: side,
-    // Without this, the arrow() middleware's first positioning pass can run
-    // before arrowRef is attached (it mounts in the same render as the
-    // floating element), silently producing a stale {top: 0, left: 0} with
-    // nothing to ever trigger a recompute — the tooltip gets stuck in the
-    // page's top-left corner. autoUpdate re-runs positioning once refs/DOM
-    // settle, and keeps it in sync on scroll/resize while open.
+    // Keeps the position in sync with scroll/resize while the tooltip is open.
     whileElementsMounted: autoUpdate,
     // floating-ui's arrow() middleware is designed to take a ref directly and
     // reads `.current` lazily during its own positioning pass, not React's
