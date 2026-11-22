@@ -53,7 +53,7 @@ export default function LoginPage() {
     try {
       const tokens = await login({ email, password });
       storeTokens(tokens);
-      router.push("/dashboard");
+      router.push(tokens.householdId ? "/dashboard" : "/select-household");
     } catch (error) {
       if (error instanceof ApiError && error.status === 401) {
         setFormError("Email ou senha inválidos");

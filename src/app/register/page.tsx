@@ -15,14 +15,11 @@ interface FieldErrors {
   name?: string;
   email?: string;
   password?: string;
-  householdName?: string;
-  inviteCode?: string;
 }
 
 const REQUIRED_FIELD_MESSAGE = "Campo obrigatório";
 const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_TOO_SHORT_MESSAGE = `A senha deve ter pelo menos ${PASSWORD_MIN_LENGTH} caracteres`;
-const HOUSEHOLD_XOR_MESSAGE = "Preencha o nome do household ou um código de convite, não os dois";
 const GENERIC_SERVER_ERROR = "Não foi possível criar sua conta. Tente novamente.";
 
 // Validation Problem Details field keys are PascalCase per
@@ -31,7 +28,6 @@ const VALIDATION_FIELD_MAP: Record<string, keyof FieldErrors> = {
   Name: "name",
   Email: "email",
   Password: "password",
-  HouseholdName: "householdName",
 };
 
 export default function RegisterPage() {
@@ -39,16 +35,11 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [householdName, setHouseholdName] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [emailInUse, setEmailInUse] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isSubmittingRef = useRef(false);
-
-  const hasHouseholdName = householdName.trim().length > 0;
-  const hasInviteCode = inviteCode.trim().length > 0;
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
@@ -58,12 +49,6 @@ export default function RegisterPage() {
       errors.password = REQUIRED_FIELD_MESSAGE;
     } else if (password.length < PASSWORD_MIN_LENGTH) {
       errors.password = PASSWORD_TOO_SHORT_MESSAGE;
-    }
-
-    if (hasHouseholdName === hasInviteCode) {
-      // Both empty or both filled — exactly one is required.
-      errors.householdName = HOUSEHOLD_XOR_MESSAGE;
-      errors.inviteCode = HOUSEHOLD_XOR_MESSAGE;
     }
 
     return errors;
@@ -86,15 +71,9 @@ export default function RegisterPage() {
     isSubmittingRef.current = true;
     setIsSubmitting(true);
     try {
-      const tokens = await register({
-        name,
-        email,
-        password,
-        householdName: hasHouseholdName ? householdName : undefined,
-        inviteCode: hasInviteCode ? inviteCode : undefined,
-      });
+      const tokens = await register({ name, email, password });
       storeTokens(tokens);
-      router.push("/dashboard");
+      router.push(tokens.householdId ? "/dashboard" : "/select-household");
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
         setEmailInUse(true);
@@ -147,34 +126,6 @@ export default function RegisterPage() {
                 autoComplete="new-password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-              />
-            </FormField>
-            <FormField
-              label="Nome do household"
-              error={fieldErrors.householdName}
-              helperText="Crie um household novo para sua família ou grupo."
-              required={!hasInviteCode}
-            >
-              <Input
-                type="text"
-                autoComplete="off"
-                value={householdName}
-                disabled={hasInviteCode}
-                onChange={(event) => setHouseholdName(event.target.value)}
-              />
-            </FormField>
-            <FormField
-              label="Código de convite"
-              error={fieldErrors.inviteCode}
-              helperText="Ou entre em um household existente com um código de convite."
-              required={!hasHouseholdName}
-            >
-              <Input
-                type="text"
-                autoComplete="off"
-                value={inviteCode}
-                disabled={hasHouseholdName}
-                onChange={(event) => setInviteCode(event.target.value)}
               />
             </FormField>
             {emailInUse && (

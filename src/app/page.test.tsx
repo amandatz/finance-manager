@@ -20,7 +20,7 @@ describe("Home (root route)", () => {
   });
 
   it("redirects to /dashboard when a session is stored", async () => {
-    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456" });
+    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
 
     render(<Home />);
 

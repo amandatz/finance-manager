@@ -41,8 +41,8 @@ describe("DashboardLayout session guard", () => {
     expect(queryByText("Protected content")).not.toBeInTheDocument();
   });
 
-  it("renders children when a session is stored", async () => {
-    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456" });
+  it("renders children when a session is stored with an active household", async () => {
+    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
 
     const { findByText } = render(
       <DashboardLayout>
@@ -52,5 +52,20 @@ describe("DashboardLayout session guard", () => {
 
     expect(await findByText("Protected content")).toBeInTheDocument();
     expect(replaceMock).not.toHaveBeenCalled();
+  });
+
+  it("redirects to /select-household when the session has no active household", async () => {
+    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456", householdId: null });
+
+    const { queryByText } = render(
+      <DashboardLayout>
+        <div>Protected content</div>
+      </DashboardLayout>,
+    );
+
+    await waitFor(() => {
+      expect(replaceMock).toHaveBeenCalledWith("/select-household");
+    });
+    expect(queryByText("Protected content")).not.toBeInTheDocument();
   });
 });

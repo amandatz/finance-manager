@@ -1,5 +1,6 @@
 import { ApiError, toApiError } from "@/lib/auth/api-error";
-import type { AuthTokens, LoginRequest, RegisterRequest } from "@/types/auth";
+import { authenticatedRequest } from "@/lib/api/authenticated-fetch";
+import type { AuthTokens, LoginRequest, RegisterRequest, SwitchHouseholdRequest } from "@/types/auth";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5228/api/v1";
 
@@ -79,4 +80,17 @@ export async function logout(refreshToken: string): Promise<void> {
   if (!response.ok) {
     throw await toApiError(response);
   }
+}
+
+/**
+ * POST /api/v1/auth/switch-household — docs/api/frontend-auth-spec.md.
+ * Re-scopes the session to a household the caller already belongs to,
+ * returning a fresh token pair. Requires a Bearer token, so this goes
+ * through authenticatedRequest rather than a plain fetch.
+ */
+export function switchHousehold(data: SwitchHouseholdRequest): Promise<AuthTokens> {
+  return authenticatedRequest<AuthTokens>(API_BASE_URL, "/auth/switch-household", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 }

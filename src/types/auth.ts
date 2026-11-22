@@ -3,22 +3,40 @@ export interface LoginRequest {
   password: string;
 }
 
-/**
- * POST /auth/register body — the two flows (create household vs. join via
- * invite code) are mutually exclusive: exactly one of `householdName` /
- * `inviteCode` should be set, the other omitted/undefined.
- */
+/** POST /auth/register body — identity only, no household (docs/api/frontend-auth-spec.md). */
 export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
-  householdName?: string;
-  inviteCode?: string;
 }
 
+/**
+ * `householdId` is `null` when the session has no active household yet
+ * (right after register, or login for a household-less account) — the
+ * caller must redirect to /select-household instead of /dashboard in that
+ * case (docs/api/frontend-auth-spec.md).
+ */
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
+  householdId: string | null;
+}
+
+/** POST /households body. */
+export interface CreateHouseholdRequest {
+  householdName: string;
+}
+
+/** GET /users/me/households item — same numeric `role` convention as /me (Member = 0, Owner = 1). */
+export interface HouseholdMembership {
+  householdId: string;
+  householdName: string;
+  role: number;
+}
+
+/** POST /auth/switch-household body. */
+export interface SwitchHouseholdRequest {
+  householdId: string;
 }
 
 /** Plain RFC 7807 Problem Details body (401, 403, 404, 409, 500, most 400s). */

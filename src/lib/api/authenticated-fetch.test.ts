@@ -11,7 +11,7 @@ describe("authenticatedRequest", () => {
   beforeEach(() => {
     fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
-    storeTokens({ accessToken: "access-token", refreshToken: "refresh-token" });
+    storeTokens({ accessToken: "access-token", refreshToken: "refresh-token", householdId: "household-1" });
 
     originalLocation = window.location;
     Object.defineProperty(window, "location", {
