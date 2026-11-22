@@ -31,7 +31,7 @@ describe("LoginPage", () => {
 
   it("logs in successfully, stores tokens, and redirects to /dashboard", async () => {
     const user = userEvent.setup();
-    loginMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+    loginMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
 
     render(<LoginPage />);
 
@@ -44,7 +44,26 @@ describe("LoginPage", () => {
     });
 
     expect(loginMock).toHaveBeenCalledWith({ email: "owner@example.com", password: "SomePassword123" });
-    expect(getStoredTokens()).toEqual({ accessToken: "access-123", refreshToken: "refresh-456" });
+    expect(getStoredTokens()).toEqual({
+      accessToken: "access-123",
+      refreshToken: "refresh-456",
+      householdId: "household-1",
+    });
+  });
+
+  it("redirects to /select-household when the account has no active household", async () => {
+    const user = userEvent.setup();
+    loginMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456", householdId: null });
+
+    render(<LoginPage />);
+
+    await user.type(screen.getByLabelText(/email/i), "owner@example.com");
+    await user.type(screen.getByLabelText(/senha/i), "SomePassword123");
+    await user.click(screen.getByRole("button", { name: /entrar/i }));
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/select-household");
+    });
   });
 
   it("blocks submit and shows inline errors when fields are empty, without calling the API", async () => {
@@ -109,7 +128,8 @@ describe("LoginPage", () => {
 
   it("disables the submit button and shows a loading state while the request is in flight", async () => {
     const user = userEvent.setup();
-    let resolveLogin: (value: { accessToken: string; refreshToken: string }) => void = () => {};
+    let resolveLogin: (value: { accessToken: string; refreshToken: string; householdId: string | null }) => void =
+      () => {};
     loginMock.mockImplementationOnce(
       () =>
         new Promise((resolve) => {
@@ -127,13 +147,13 @@ describe("LoginPage", () => {
     expect(submitButton).toBeDisabled();
     expect(submitButton).toHaveAttribute("aria-busy", "true");
 
-    resolveLogin({ accessToken: "access-123", refreshToken: "refresh-456" });
+    resolveLogin({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
     await waitFor(() => expect(pushMock).toHaveBeenCalled());
   });
 
   it("sends a single login request when the submit button is double-clicked rapidly", async () => {
     const user = userEvent.setup();
-    loginMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+    loginMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
 
     render(<LoginPage />);
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
-import { hasValidSession } from "@/lib/auth/session";
+import { hasActiveHousehold, hasValidSession } from "@/lib/auth/session";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -12,10 +12,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hasValidSession()) {
       router.replace("/login");
+    } else if (!hasActiveHousehold()) {
+      router.replace("/select-household");
     }
   }, [router]);
 
-  if (!hasValidSession()) {
+  if (!hasValidSession() || !hasActiveHousehold()) {
     return null;
   }
 

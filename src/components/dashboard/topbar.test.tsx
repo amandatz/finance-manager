@@ -25,7 +25,7 @@ describe("Topbar logout", () => {
     pushMock.mockClear();
     logoutMock.mockReset();
     pathname = "/dashboard";
-    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456" });
+    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
   });
 
   afterEach(() => {
@@ -69,7 +69,7 @@ describe("Topbar logout", () => {
 describe("Topbar title/subtitle resolution", () => {
   beforeEach(() => {
     window.localStorage.clear();
-    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456" });
+    storeTokens({ accessToken: "access-123", refreshToken: "refresh-456", householdId: "household-1" });
   });
 
   afterEach(() => {

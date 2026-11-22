@@ -35,50 +35,42 @@ describe("RegisterPage", () => {
     window.localStorage.clear();
   });
 
-  it("creates a household, stores tokens, and redirects to /dashboard", async () => {
+  it("creates the account, stores tokens, and redirects to /select-household when there is no active household", async () => {
     const user = userEvent.setup();
-    registerMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+    registerMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456", householdId: null });
 
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     await waitFor(() => {
-      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+      expect(pushMock).toHaveBeenCalledWith("/select-household");
     });
 
     expect(registerMock).toHaveBeenCalledWith({
       name: "Household Owner",
       email: "owner@example.com",
       password: "SomePassword123",
-      householdName: "The Smiths",
-      inviteCode: undefined,
     });
-    expect(getStoredTokens()).toEqual({ accessToken: "access-123", refreshToken: "refresh-456" });
+    expect(getStoredTokens()).toEqual({ accessToken: "access-123", refreshToken: "refresh-456", householdId: null });
   });
 
-  it("joins a household via invite code, stores tokens, and redirects to /dashboard", async () => {
+  it("redirects to /dashboard if the response already carries an active household", async () => {
     const user = userEvent.setup();
-    registerMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+    registerMock.mockResolvedValueOnce({
+      accessToken: "access-123",
+      refreshToken: "refresh-456",
+      householdId: "household-1",
+    });
 
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/código de convite/i), "9T4ALTYR");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     await waitFor(() => {
       expect(pushMock).toHaveBeenCalledWith("/dashboard");
-    });
-
-    expect(registerMock).toHaveBeenCalledWith({
-      name: "Household Owner",
-      email: "owner@example.com",
-      password: "SomePassword123",
-      householdName: undefined,
-      inviteCode: "9T4ALTYR",
     });
   });
 
@@ -87,7 +79,6 @@ describe("RegisterPage", () => {
 
     render(<RegisterPage />);
 
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     expect(await screen.findAllByText(/campo obrigatório/i)).toHaveLength(3);
@@ -103,33 +94,10 @@ describe("RegisterPage", () => {
     await user.type(screen.getByLabelText(/^nome \*?$/i), "Household Owner");
     await user.type(screen.getByLabelText(/^email \*?$/i), "owner@example.com");
     await user.type(screen.getByLabelText(/^senha \*?$/i), "short1");
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     expect(await screen.findByText(/pelo menos 8 caracteres/i)).toBeInTheDocument();
     expect(registerMock).not.toHaveBeenCalled();
-  });
-
-  it("blocks submit when neither household name nor invite code is filled", async () => {
-    const user = userEvent.setup();
-
-    render(<RegisterPage />);
-
-    await fillRequiredFields(user);
-    await user.click(screen.getByRole("button", { name: /criar conta/i }));
-
-    expect(await screen.findAllByText(/household.*convite|convite.*household/i)).not.toHaveLength(0);
-    expect(registerMock).not.toHaveBeenCalled();
-  });
-
-  it("disables the invite code field once a household name is entered (mutually exclusive)", async () => {
-    const user = userEvent.setup();
-
-    render(<RegisterPage />);
-
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
-
-    expect(screen.getByLabelText(/código de convite/i)).toBeDisabled();
   });
 
   it("shows an email-in-use message with a link to /login on 409, without navigating away", async () => {
@@ -139,7 +107,6 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     const alert = await screen.findByRole("alert");
@@ -148,17 +115,16 @@ describe("RegisterPage", () => {
     expect(pushMock).not.toHaveBeenCalled();
   });
 
-  it("shows the backend title as a general error for an invalid invite code (400 plain shape)", async () => {
+  it("shows the backend title as a general error for a plain 400 (e.g. password under policy)", async () => {
     const user = userEvent.setup();
-    registerMock.mockRejectedValueOnce(new ApiError("Invalid or expired invite code.", 400));
+    registerMock.mockRejectedValueOnce(new ApiError("Password must be at least 8 characters.", 400));
 
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/código de convite/i), "BADCODE1");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
-    expect(await screen.findByRole("alert")).toHaveTextContent(/invalid or expired invite code/i);
+    expect(await screen.findByRole("alert")).toHaveTextContent(/password must be at least 8 characters/i);
     expect(pushMock).not.toHaveBeenCalled();
   });
 
@@ -166,17 +132,16 @@ describe("RegisterPage", () => {
     const user = userEvent.setup();
     registerMock.mockRejectedValueOnce(
       new ApiError("One or more validation errors occurred.", 400, {
-        HouseholdName: ["'Household Name' must not be empty."],
+        Email: ["'Email' is not a valid email address."],
       }),
     );
 
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
-    expect(await screen.findByText(/household name.*must not be empty/i)).toBeInTheDocument();
+    expect(await screen.findByText(/email.*is not a valid email address/i)).toBeInTheDocument();
     expect(pushMock).not.toHaveBeenCalled();
   });
 
@@ -190,7 +155,6 @@ describe("RegisterPage", () => {
     await user.type(nameInput, "Household Owner");
     await user.type(screen.getByLabelText(/^email \*?$/i), "owner@example.com");
     await user.type(screen.getByLabelText(/^senha \*?$/i), "SomePassword123");
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent(/não foi possível criar sua conta/i);
@@ -201,7 +165,8 @@ describe("RegisterPage", () => {
 
   it("disables the submit button and shows a loading state while the request is in flight", async () => {
     const user = userEvent.setup();
-    let resolveRegister: (value: { accessToken: string; refreshToken: string }) => void = () => {};
+    let resolveRegister: (value: { accessToken: string; refreshToken: string; householdId: string | null }) => void =
+      () => {};
     registerMock.mockImplementationOnce(
       () =>
         new Promise((resolve) => {
@@ -212,32 +177,30 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
     const submitButton = screen.getByRole("button", { name: /criar conta/i });
     await user.click(submitButton);
 
     expect(submitButton).toBeDisabled();
     expect(submitButton).toHaveAttribute("aria-busy", "true");
 
-    resolveRegister({ accessToken: "access-123", refreshToken: "refresh-456" });
+    resolveRegister({ accessToken: "access-123", refreshToken: "refresh-456", householdId: null });
     await waitFor(() => expect(pushMock).toHaveBeenCalled());
   });
 
   it("sends a single register request when the submit button is double-clicked rapidly", async () => {
     const user = userEvent.setup();
-    registerMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456" });
+    registerMock.mockResolvedValueOnce({ accessToken: "access-123", refreshToken: "refresh-456", householdId: null });
 
     render(<RegisterPage />);
 
     await fillRequiredFields(user);
-    await user.type(screen.getByLabelText(/nome do household/i), "The Smiths");
 
     const submitButton = screen.getByRole("button", { name: /criar conta/i });
     fireEvent.click(submitButton);
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+      expect(pushMock).toHaveBeenCalledWith("/select-household");
     });
     expect(registerMock).toHaveBeenCalledTimes(1);
   });
@@ -246,5 +209,12 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
 
     expect(screen.getByRole("link", { name: /já tem uma conta\? entrar/i })).toHaveAttribute("href", "/login");
+  });
+
+  it("no longer renders household name or invite code fields", () => {
+    render(<RegisterPage />);
+
+    expect(screen.queryByLabelText(/nome do household/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/código de convite/i)).not.toBeInTheDocument();
   });
 });
