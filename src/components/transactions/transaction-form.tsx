@@ -214,7 +214,6 @@ export function TransactionForm({ transaction }: { transaction?: TransactionEntr
         <Select
           value={categoryId}
           disabled={loadingOptions || categoriesForType.length === 0}
-          aria-describedby={categoriesForType.length === 0 ? "category-placeholder-hint" : undefined}
           onChange={(event) => setCategoryId(event.target.value)}
         >
           <option value="">Select a type first</option>
