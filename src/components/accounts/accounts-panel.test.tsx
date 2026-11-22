@@ -92,6 +92,19 @@ describe("AccountsPanel", () => {
     expect(await screen.findByText("Main Checking")).toBeInTheDocument();
   });
 
+  it("navigates to the filtered transactions listing when View transactions is selected", async () => {
+    listMock.mockResolvedValueOnce([account()]);
+    const user = userEvent.setup();
+
+    render(<AccountsPanel />);
+
+    await screen.findByText("Main Checking");
+    await user.click(screen.getByRole("button", { name: /actions for main checking/i }));
+    await user.click(await screen.findByRole("menuitem", { name: /view transactions/i }));
+
+    expect(pushMock).toHaveBeenCalledWith("/dashboard/transactions?accountId=acc-1");
+  });
+
   it("navigates to the edit route when Edit is selected (AC 13)", async () => {
     listMock.mockResolvedValueOnce([account()]);
     const user = userEvent.setup();
