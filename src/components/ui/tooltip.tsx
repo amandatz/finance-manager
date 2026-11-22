@@ -5,6 +5,7 @@ import {
   FloatingArrow,
   FloatingPortal,
   arrow,
+  autoUpdate,
   flip,
   offset,
   shift,
@@ -35,6 +36,13 @@ export function Tooltip({ children, content, side = "top", delay = 300 }: Toolti
     open,
     onOpenChange: setOpen,
     placement: side,
+    // Without this, the arrow() middleware's first positioning pass can run
+    // before arrowRef is attached (it mounts in the same render as the
+    // floating element), silently producing a stale {top: 0, left: 0} with
+    // nothing to ever trigger a recompute — the tooltip gets stuck in the
+    // page's top-left corner. autoUpdate re-runs positioning once refs/DOM
+    // settle, and keeps it in sync on scroll/resize while open.
+    whileElementsMounted: autoUpdate,
     // floating-ui's arrow() middleware is designed to take a ref directly and
     // reads `.current` lazily during its own positioning pass, not React's
     // render phase — safe despite the generic lint warning below.
@@ -64,16 +72,22 @@ export function Tooltip({ children, content, side = "top", delay = 300 }: Toolti
       {trigger}
       <FloatingPortal>
         {isMounted && (
-          <div
-            ref={refs.setFloating}
-            style={{ ...floatingStyles, ...transitionStyles }}
-            {...getFloatingProps()}
-            className={cn(
-              "z-[var(--z-tooltip)] rounded-sm bg-surface-elevated px-2.5 py-1.5 text-xs font-medium text-surface-elevated-foreground shadow-tooltip dark:border dark:border-[var(--shadow-elevated-border)]",
-            )}
-          >
-            {content}
-            <FloatingArrow ref={arrowRef} context={context} className="fill-surface-elevated" />
+          // floatingStyles positions via `transform: translate(...)` (floating-ui's
+          // perf-friendly default) and transitionStyles animates via `transform:
+          // scale(...)` — spread onto the same style object, one clobbers the
+          // other's transform. Keeping them on separate nested elements lets both
+          // apply without colliding.
+          <div ref={refs.setFloating} style={floatingStyles}>
+            <div
+              style={transitionStyles}
+              {...getFloatingProps()}
+              className={cn(
+                "z-[var(--z-tooltip)] rounded-sm bg-surface-elevated px-2.5 py-1.5 text-xs font-medium text-surface-elevated-foreground shadow-tooltip dark:border dark:border-[var(--shadow-elevated-border)]",
+              )}
+            >
+              {content}
+              <FloatingArrow ref={arrowRef} context={context} className="fill-surface-elevated" />
+            </div>
           </div>
         )}
       </FloatingPortal>
