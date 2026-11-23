@@ -1,5 +1,6 @@
 import { authenticatedRequest } from "@/lib/api/authenticated-fetch";
 import type { AuthTokens, CreateHouseholdRequest, HouseholdMembership } from "@/types/auth";
+import type { HouseholdExpenseSplitReport } from "@/types/households";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5228/api/v1";
 
@@ -22,4 +23,12 @@ export function createHousehold(data: CreateHouseholdRequest): Promise<AuthToken
     method: "POST",
     body: JSON.stringify(data),
   });
+}
+
+/**
+ * `period` must be `yyyy-MM`; omit to default to the current calendar month.
+ */
+export function getHouseholdExpenseSplit(period?: string): Promise<HouseholdExpenseSplitReport> {
+  const query = period ? `?period=${period}` : "";
+  return authenticatedRequest<HouseholdExpenseSplitReport>(API_BASE_URL, `/households/expense-split${query}`);
 }

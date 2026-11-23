@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ArrowRightLeft, LayoutDashboard, Landmark, PiggyBank, Settings, Wallet } from "lucide-react";
+import { ArrowRightLeft, LayoutDashboard, Landmark, PiggyBank, Settings, Users, Wallet } from "lucide-react";
 import { NavRail } from "@/components/ui/nav-rail";
 import { useLocalStorageState } from "@/hooks/use-local-storage-state";
 import { cn } from "@/lib/cn";
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/accounts", label: "Accounts", icon: Landmark },
   { href: "/dashboard/transactions", label: "Transactions", icon: ArrowRightLeft },
   { href: "/dashboard/budgets", label: "Budgets", icon: PiggyBank },
+  { href: "/dashboard/household-split", label: "Household", icon: Users },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
