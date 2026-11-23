@@ -26,6 +26,10 @@ const PAGE_COPY: Record<string, { title: string; subtitle: string }> = {
     subtitle: "Update this transaction's details",
   },
   "/dashboard/budgets": { title: "Budgets", subtitle: "Track spending against your monthly targets" },
+  "/dashboard/household-split": {
+    title: "Household",
+    subtitle: "Compare income and shared expenses across your household",
+  },
   "/dashboard/settings": { title: "Settings", subtitle: "Manage your profile and preferences" },
 };
 
